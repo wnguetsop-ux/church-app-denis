@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l C:/Users/Utente/Desktop/church-app-denis/.claude/references/*.md)",
+      "Bash(wc -l C:/Users/Utente/Desktop/church-app-denis/.claude/skills/*/SKILL.md C:/Users/Utente/Desktop/church-app-denis/.claude/references/*.md C:/Users/Utente/Desktop/church-app-denis/CLAUDE.md)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git --yes)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git --yes --force)",
+      "Bash(mkdir -p /tmp/cifm4-backup)",
+      "Bash(cp CLAUDE.md README.md /tmp/cifm4-backup/)",
+      "Bash(rm CLAUDE.md README.md)"
+    ]
+  }
+}

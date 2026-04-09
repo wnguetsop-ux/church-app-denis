@@ -1,0 +1,94 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Edit",
+      "Write",
+      "Bash(npm run *)",
+      "Bash(npx *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git checkout -b *)",
+      "Bash(git branch *)",
+      "Bash(git stash *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(find * -type f)"
+    ],
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git push --force-with-lease*)",
+      "Bash(git reset --hard*)",
+      "Bash(git push origin main*)",
+      "Bash(git push origin master*)",
+      "Bash(firebase deploy*)",
+      "Bash(vercel --prod*)",
+      "Bash(vercel deploy --prod*)",
+      "Bash(rm -rf*)"
+    ]
+  },
+
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[GUARD:SECRETS] Aucune clé API, credential Firebase, IBAN ou numéro en dur dans ce fichier.'"
+          },
+          {
+            "type": "command",
+            "command": "echo '[GUARD:BILINGUAL] Tout texte UI visible doit exister en FR et EN.'"
+          },
+          {
+            "type": "command",
+            "command": "echo '[GUARD:VIDEO] Aucune vidéo sur Firebase Storage. YouTube uniquement.'"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[GUARD:BASH] Vérifier : pas de déploiement non validé, pas de force-push, pas de rm -rf.'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[REMINDER:ANIMATION] Nouveau composant ? Prévoir une animation Framer Motion (fadeUp ou cardItem).'"
+          },
+          {
+            "type": "command",
+            "command": "echo '[REMINDER:FIRESTORE] Nouvel accès Firestore ? Vérifier : limit(), cache SWR, règles de sécurité.'"
+          }
+        ]
+      }
+    ]
+  },
+
+  "env": {
+    "PROJECT_NAME":            "church-app-denis",
+    "PROJECT_TYPE":            "pwa+website",
+    "LOCALE_DEFAULT":          "fr",
+    "LOCALE_SUPPORTED":        "fr,en",
+    "VIDEO_PROVIDER":          "youtube_only",
+    "PAYMENT_METHOD":          "manual_links",
+    "ANIMATION_LIBRARY":       "framer-motion",
+    "FIREBASE_STORAGE_POLICY": "images_and_audio_only",
+    "PWA_PRIORITY":            "true",
+    "REFERENCE_APP":           "kanguka"
+  }
+}
