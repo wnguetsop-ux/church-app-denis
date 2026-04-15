@@ -157,6 +157,52 @@ export const reducedMotion = (variants) =>
 
 ---
 
+## direction visuelle premium — effets obligatoires
+
+Référence d'inspiration : **iyenis.com** — hero slider, Ken Burns, zoom on hover, parallax, sensation premium.
+
+### Hero Slider / Carousel (page d'accueil)
+- Slider automatique avec 3–5 slides, intervalle ~6 secondes
+- Transition : crossfade doux (pas de slide latéral brutal)
+- Chaque slide : image plein écran + titre + CTA
+- Indicateurs discrets (dots ou barre de progression fine)
+- Swipe mobile natif
+- Composant : `src/components/home/HeroSlider.tsx`
+
+### Ken Burns (tous les heroes de pages)
+- Effet de zoom lent + léger pan sur les images hero de chaque page
+- Animation CSS `scale(1) → scale(1.08)` sur 12–15 secondes, `ease-in-out`
+- Direction aléatoire ou alternée entre les slides
+- Respecter `prefers-reduced-motion` : désactiver si activé
+- S'applique à : `PageHeader` quand `backgroundImage` est présent
+
+### Zoom on Hover (cartes et images)
+- Toutes les cartes cliquables : `scale(1.03)` au hover, durée 300ms
+- Images dans les cartes : zoom interne `scale(1.08)` avec `overflow-hidden` sur le container
+- Galerie : zoom doux sur hover avec overlay subtil
+- Implémentation : Framer Motion `whileHover` ou CSS `group-hover`
+
+### Parallax (sections et images)
+- Parallax léger sur les sections hero : vitesse 0.3–0.5× du scroll
+- Pas de parallax agressif — mouvement subtil qui ajoute de la profondeur
+- Désactiver sur mobile bas de gamme (détection via `matchMedia` ou `navigator.hardwareConcurrency`)
+- Implémentation : `useScroll` + `useTransform` de Framer Motion
+
+### Micro-interactions premium
+- Boutons : `scale(0.97)` au press + ripple subtil
+- Links : underline animate de gauche à droite au hover
+- Icônes de navigation : léger bounce au tap
+- Transitions de page : fade + léger slide vertical (20px)
+- Scroll indicators : fade in/out selon la position
+
+### Règle de performance
+- Toutes les animations premium utilisent `transform` et `opacity` uniquement (GPU)
+- Ken Burns : CSS animation (pas JS) pour économiser le CPU
+- Parallax : `will-change: transform` sur l'élément cible
+- Désactiver les effets lourds si `prefers-reduced-motion: reduce`
+
+---
+
 ## layout système
 
 ```

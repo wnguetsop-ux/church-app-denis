@@ -10,7 +10,7 @@
 
 | Section | Reçu | En attente |
 |---|---|---|
-| Identité (nom, abréviation, mission) | ✅ Partiel | Tagline, ville, adresse, domaine |
+| Identité (nom, abréviation, mission) | ✅ Confirmé | Ville, adresse à confirmer |
 | Couleurs officielles | ✅ Bleu + Blanc | Teintes exactes (hex) |
 | Logo | ✅ Dossier local disponible | Préparation SVG/PNG optimisé |
 | Dons (Orange, MTN, PayPal) | ✅ Confirmés | Coordonnées virement |
@@ -24,9 +24,9 @@
 | Prière | ❌ | Texte d'introduction |
 | À propos / Histoire | ❌ | Texte complet de Denis |
 | Contact | ❌ | Téléphone, adresse, horaires |
-| YouTube | ❌ | URL chaîne |
-| TikTok | ❌ | URL compte |
-| Domaine | ❌ | À recevoir |
+| YouTube | ✅ Confirmé | — |
+| TikTok | ✅ Confirmé | — |
+| Domaine | ✅ Confirmé | communautedesfilsdemalachie4.com |
 
 ---
 
@@ -48,13 +48,13 @@ Pays               : [À FOURNIR PAR DENIS]
 Adresse complète   : [À FOURNIR PAR DENIS]
 Téléphone          : [À FOURNIR PAR DENIS — numéro personnel]
 Email              : tadumdenis@gmail.com
-Domaine            : [À RECEVOIR DE DENIS]
+Domaine            : communautedesfilsdemalachie4.com (prévu)
 
 Horaires cultes    : [À FOURNIR PAR DENIS]
 
 Facebook           : https://www.facebook.com/communautedesfilsdemalachie4
-YouTube            : [À FOURNIR PAR DENIS]
-TikTok             : [À FOURNIR PAR DENIS]
+YouTube            : https://www.youtube.com/@communauteinternationalede1948
+TikTok             : https://www.tiktok.com/@communaut.fils.de
 
 Logo               : Disponible dans `logo et insigne eglise/` — à préparer
 ```
@@ -301,21 +301,21 @@ Confirmation EN    : [TO TRANSLATE]
 
 ## À propos
 
-### Mission — confirmée
+### Mission — texte officiel confirmé
 
 ```
 FR :
-  La Communauté Internationale des Fils de Malachie 4 est une organisation
-  chrétienne à but non lucratif fondée sur les principes de Malachie 4:5-6
-  et le style de vie communautaire d'Actes 2.
-
-  Nos objectifs :
-  - Promouvoir la parole de Dieu
+  Communauté Internationale des Fils de Malachie 4 (C. I. F. M. 4) est une
+  organisation chrétienne à but non lucratif, avec comme objectifs :
+  - Promouvoir la parole de Dieu (Sainte Bible), de façon directe mais surtout
+    par les moyens de diffusion en ligne (Internet)
   - Promouvoir le message de Malachie 4:5-6
   - Promouvoir le style de vie communautaire des chrétiens de Actes 2
-  - Aider les laissés pour compte
-  - Accueillir les personnes en difficulté par une aide matérielle, morale et spirituelle
-  - Mettre à disposition le message biblique et diverses publications chrétiennes
+  - Apporter une aide à des laissés pour compte, sans distinction aucune,
+    et leur proposer des actions de réinsertion
+  - Accueillir la personne en difficulté par une aide sur le plan matériel,
+    moral et spirituel
+  - Mettre à disposition le message biblique (Bible et diverses publications chrétiennes)
 
 EN :
   The International Community of the Sons of Malachi 4 is a non-profit Christian
@@ -371,10 +371,10 @@ Responsable        : Denis Descartes Tadum
 Téléphone          : [À FOURNIR PAR DENIS — numéro personnel]
 Email              : tadumdenis@gmail.com
 Adresse            : [À FOURNIR PAR DENIS]
-Domaine            : [À RECEVOIR]
+Domaine            : communautedesfilsdemalachie4.com (prévu)
 Facebook           : https://www.facebook.com/communautedesfilsdemalachie4
-YouTube            : [À FOURNIR]
-TikTok             : [À FOURNIR]
+YouTube            : https://www.youtube.com/@communauteinternationalede1948
+TikTok             : https://www.tiktok.com/@communaut.fils.de
 ```
 
 ---

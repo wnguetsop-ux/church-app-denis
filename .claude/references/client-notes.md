@@ -31,33 +31,35 @@
 | Adresse | À confirmer |
 | Téléphone | À confirmer |
 | Horaires cultes | À confirmer |
-| Domaine web | À recevoir de Denis |
-| Site actuel | À confirmer — existe-t-il un site à remplacer ? |
+| Domaine web | communautedesfilsdemalachie4.com (prévu) |
+| Site actuel | Aucun — première plateforme web de la CIFM4 |
 
 ---
 
 ## Mission de la CIFM4 — confirmée
 
-Denis a décrit les objectifs de l'organisation :
+Denis a fourni la présentation officielle de l'organisation :
 
-1. Promouvoir la parole de Dieu
+> Communauté Internationale des Fils de Malachie 4 (C. I. F. M. 4) est une organisation chrétienne à but non lucratif, avec comme objectifs :
+
+1. Promouvoir la parole de Dieu (Sainte Bible), de façon directe mais surtout par les moyens de diffusion en ligne (Internet)
 2. Promouvoir le message de **Malachie 4:5-6**
 3. Promouvoir le style de vie communautaire des chrétiens de **Actes 2**
-4. Aider les laissés pour compte
-5. Accueillir les personnes en difficulté par une aide matérielle, morale et spirituelle
-6. Mettre à disposition le message biblique et diverses publications chrétiennes
+4. Apporter une aide à des laissés pour compte, sans distinction aucune, et leur proposer des actions de réinsertion
+5. Accueillir la personne en difficulté par une aide sur le plan matériel, moral et spirituel
+6. Mettre à disposition le message biblique (Bible et diverses publications chrétiennes)
 
 > Ces objectifs doivent guider le ton, le contenu et la navigation de l'app.
 
 ---
 
-## Réseaux sociaux — état actuel
+## Réseaux sociaux — confirmés
 
 | Réseau | URL / Info | Statut |
 |---|---|---|
 | Facebook | https://www.facebook.com/communautedesfilsdemalachie4 | Confirmé |
-| YouTube | À recevoir | En attente |
-| TikTok | À recevoir | En attente |
+| YouTube | https://www.youtube.com/@communauteinternationalede1948 | Confirmé |
+| TikTok | https://www.tiktok.com/@communaut.fils.de | Confirmé |
 | Instagram | Non mentionné | À confirmer |
 
 ---
@@ -173,9 +175,9 @@ Il ne veut pas changer cet esprit — il veut le moderniser.
 | Palette exacte (teintes bleu/blanc) | Partiellement connue — à affiner |
 | Histoire de la CIFM4 (FR + EN) | En attente |
 | Numéro de téléphone personnel | En attente |
-| URL chaîne YouTube | En attente |
+| URL chaîne YouTube | ✅ Reçu |
 | Coordonnées bancaires (virement) | En attente |
-| Nom de domaine | En attente |
+| Nom de domaine | ✅ communautedesfilsdemalachie4.com |
 | Horaires et adresse des cultes | En attente |
 | Membres de l'équipe (photos + rôles) | En attente |
 
@@ -204,5 +206,7 @@ Il ne veut pas changer cet esprit — il veut le moderniser.
 | — | Vidéos | YouTube pour les longues. Storage autorisé pour les courtes (galerie). |
 | — | Distribution | PWA d'abord. Play Store/Apple plus tard. |
 | — | Identité | Nom officiel : CIFM4. Couleurs : bleu + blanc. |
-| — | Réseaux | Facebook confirmé. YouTube et TikTok en attente. |
+| — | Réseaux | Facebook, YouTube et TikTok confirmés. |
+| — | Domaine | communautedesfilsdemalachie4.com confirmé. |
+| — | Présentation | Texte officiel "Qui sommes-nous" reçu. |
 | — | Assets | Dossiers locaux `immage evenement denis/` et `logo et insigne eglise/` identifiés. |
