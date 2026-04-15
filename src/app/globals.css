@@ -1,26 +1,84 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Fonts */
+  --font-sans: var(--font-inter), sans-serif;
+  --font-lora: var(--font-lora-var), serif;
+
+  /* CIFM4 Colors */
+  --color-cifm-blue-50:  #EFF6FF;
+  --color-cifm-blue-100: #DBEAFE;
+  --color-cifm-blue-400: #3B82F6;
+  --color-cifm-blue-500: #2563EB;
+  --color-cifm-blue-600: #1E4D9B;
+  --color-cifm-blue-700: #1A3A6B;
+  --color-cifm-gold-100: #FEF3C7;
+  --color-cifm-gold-400: #D4A017;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --font-inter: 'Inter', sans-serif;
+    --font-lora-var: 'Lora', serif;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-inter);
+    background-color: #F8FAFC;
+    color: #111827;
+  }
+  .font-lora {
+    font-family: var(--font-lora-var);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ── Ken Burns effect for hero images ────────────────────────── */
+@keyframes ken-burns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate(-1%, -1%);
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 14s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ken-burns {
+    animation: none;
+  }
+}
+
+/* ── Hero slider crossfade ───────────────────────────────────── */
+@keyframes hero-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes hero-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* ── Zoom on hover for images inside cards ───────────────────── */
+.group:hover .group-hover-zoom {
+  transform: scale(1.08);
+}
+
+.group-hover-zoom {
+  transition: transform 0.4s ease-out;
 }

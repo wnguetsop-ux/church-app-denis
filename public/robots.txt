@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://communautedesfilsdemalachie4.com/sitemap.xml

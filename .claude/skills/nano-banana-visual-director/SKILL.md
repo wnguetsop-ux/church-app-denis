@@ -235,6 +235,60 @@ export const cardHover = {
 
 ---
 
+## direction visuelle premium — heroes et headers
+
+### Inspiration
+**iyenis.com** — hero slider plein écran, Ken Burns, zoom on hover, parallax, premium feel.
+L'app CIFM4 doit dégager la même impression de qualité professionnelle.
+
+### Règle absolue : pas de photo brute en header
+Toute photo de la communauté utilisée comme header/hero DOIT passer par le pipeline :
+1. **Sélection** : choisir la meilleure photo disponible pour le thème
+2. **Enhancement Gemini** : retoucher via `mcp__gemini-images__edit_image` — améliorer éclairage, netteté, couleurs, cadrage
+3. **Validation** : montrer le résultat à l'utilisateur avant intégration
+4. **Stockage** : sauver dans `public/images/headers/` (jamais écraser les originaux)
+
+Si aucune photo de la communauté ne convient → générer via `mcp__gemini-images__generate_image` avec le prompt adapté au thème de la page.
+
+### Intégration du logo/emblème CIFM4
+Sur les heroes clés (accueil, à propos), le logo/emblème de la CIFM4 doit être intégré de manière premium :
+- Overlay semi-transparent du logo dans un coin ou en filigrane
+- Ou incrusté dans le visuel Gemini via prompt
+- Jamais plaqué brutalement — toujours intégré avec finesse
+
+### Lisibilité du texte sur les heroes
+Méthodes autorisées (au moins une obligatoire) :
+- Gradient overlay : `bg-gradient-to-t from-cifm-blue-900/95 via-cifm-blue-900/50 to-cifm-blue-900/20`
+- Drop shadow sur le texte : `drop-shadow-lg` sur les titres
+- Split layout : texte à gauche, image à droite (desktop)
+- Overlay sombre partiel : jamais > 60% d'opacité sur toute l'image
+
+### Ken Burns sur tous les heroes
+Chaque `PageHeader` avec `backgroundImage` doit avoir l'effet Ken Burns :
+- Zoom lent : `scale(1) → scale(1.08)` sur 12–15 secondes
+- CSS animation, pas JS (performance)
+- Respecter `prefers-reduced-motion`
+
+### Mapping des heroes par page
+
+| Page | Image | Source |
+|---|---|---|
+| Accueil | Hero slider (3-5 slides) | Gemini generated + community photos enhanced |
+| Messages | `messages-preaching.png` | Enhanced from community photo |
+| Enseignements | `bible-open.png` | Gemini generated |
+| Vidéos | `worship-stage.png` | Gemini generated |
+| Galerie | `community-group.png` | Enhanced from community photo |
+| Événements | `events-poster.png` | Enhanced from community photo |
+| Annonces | `announcements-pastor.png` | Enhanced from community photo |
+| À propos | `about-podium.png` | Enhanced from community photo |
+| Dons | `giving-light.png` | Gemini generated |
+| Prière | `prayer-hands.png` | Gemini generated |
+| Contact | `welcome-hands.png` | Gemini generated |
+| Textes | `bible-open.png` | Shared with Enseignements |
+| Audios | `worship-stage.png` | Shared with Vidéos |
+
+---
+
 ## points à surveiller
 
 - **Teintes exactes bleu non reçues** : la palette ci-dessus est une proposition. Extraire les valeurs hex exactes depuis le logo dès sa réception. Ne pas déployer en production sans les teintes officielles.
