@@ -5,6 +5,7 @@ import { ImageIcon, Pencil, Trash2, Plus, Search, Film, Image } from 'lucide-rea
 import { useAdminCrud } from '@/lib/hooks/use-admin-crud'
 import AdminModal from '@/components/admin/AdminModal'
 import { BilingualInput, Field, Input, FormActions, DeleteConfirm, Select } from '@/components/admin/AdminFormFields'
+import FileUpload from '@/components/admin/FileUpload'
 import type { GalleryItem } from '@/types'
 
 const EMPTY: Partial<GalleryItem> = {
@@ -160,13 +161,15 @@ export default function AdminGalerie() {
               options={[{ value: 'image', label: 'Photo' }, { value: 'video', label: 'Vidéo courte' }]} />
           </Field>
 
-          <Field label="URL du fichier" required hint="Lien vers l'image ou la vidéo">
-            <Input value={current.url ?? ''} onChange={v => setCurrent(p => ({ ...p, url: v }))} placeholder="https://..." />
-          </Field>
-
-          <Field label="URL miniature" hint="Optionnel — si différent de l'URL principale">
-            <Input value={current.thumbnailUrl ?? ''} onChange={v => setCurrent(p => ({ ...p, thumbnailUrl: v }))} placeholder="https://..." />
-          </Field>
+          <FileUpload
+            label="Image / Vid\u00E9o"
+            storagePath="gallery"
+            value={current.url ?? ''}
+            onUpload={url => setCurrent(p => ({ ...p, url, thumbnailUrl: url }))}
+            accept={current.type === 'video' ? 'video/*' : 'image/*'}
+            maxSizeMB={current.type === 'video' ? 20 : 5}
+            hint="Upload depuis votre appareil ou collez une URL"
+          />
 
           <BilingualInput label="Légende"
             valueFr={current.caption?.fr ?? ''} valueEn={current.caption?.en ?? ''}

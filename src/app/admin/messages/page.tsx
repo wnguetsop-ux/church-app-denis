@@ -5,6 +5,7 @@ import { Video, Pencil, Trash2, Star, Plus, Search } from 'lucide-react'
 import { useAdminCrud } from '@/lib/hooks/use-admin-crud'
 import AdminModal from '@/components/admin/AdminModal'
 import { BilingualInput, Field, Input, TagsInput, Toggle, FormActions, DeleteConfirm } from '@/components/admin/AdminFormFields'
+import FileUpload from '@/components/admin/FileUpload'
 import { Timestamp } from 'firebase/firestore'
 import type { Sermon } from '@/types'
 

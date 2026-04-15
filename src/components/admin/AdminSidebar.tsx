@@ -3,9 +3,11 @@
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Video, BookOpen, Megaphone, Calendar,
-  ImageIcon, HandHeart, Heart, Phone, Church, Menu, X
+  ImageIcon, HandHeart, Heart, Phone, Church, Menu, X,
+  BellRing, LogOut
 } from 'lucide-react'
 import { useState } from 'react'
+import { useAuth } from '@/lib/hooks/use-auth'
 
 const navItems = [
   { href: '/admin', label: 'Tableau de bord', icon: LayoutDashboard },
@@ -18,11 +20,13 @@ const navItems = [
   { href: '/admin/dons', label: 'Dons', icon: Heart },
   { href: '/admin/contact', label: 'Contact', icon: Phone },
   { href: '/admin/a-propos', label: 'À propos / Église', icon: Church },
+  { href: '/admin/notifications', label: 'Notifications', icon: BellRing },
 ]
 
 export default function AdminSidebar() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const { user, signOut } = useAuth()
 
   const isActive = (href: string) =>
     href === '/admin' ? pathname === '/admin' : pathname.startsWith(href)
@@ -70,7 +74,7 @@ export default function AdminSidebar() {
       {/* Sidebar */}
       <aside className={`
         fixed md:sticky top-0 left-0 z-40 h-screen w-64 bg-white border-r border-gray-200
-        overflow-y-auto transition-transform duration-200
+        overflow-y-auto transition-transform duration-200 flex flex-col
         md:translate-x-0
         ${open ? 'translate-x-0' : '-translate-x-full'}
       `}>
@@ -78,7 +82,34 @@ export default function AdminSidebar() {
           <p className="font-lora font-semibold text-cifm-blue-700 text-lg">CIFM4</p>
           <p className="text-xs text-gray-500">Administration</p>
         </div>
-        {nav}
+
+        <div className="flex-1 overflow-y-auto">
+          {nav}
+        </div>
+
+        {/* User info + sign out */}
+        {user && (
+          <div className="border-t border-gray-100 px-4 py-3 space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-cifm-blue-100 flex items-center justify-center">
+                <span className="text-xs font-bold text-cifm-blue-700">
+                  {user.email?.charAt(0).toUpperCase() ?? 'A'}
+                </span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-medium text-gray-700 truncate">{user.displayName ?? 'Admin'}</p>
+                <p className="text-[10px] text-gray-400 truncate">{user.email}</p>
+              </div>
+            </div>
+            <button
+              onClick={signOut}
+              className="flex items-center gap-2 w-full px-3 py-2 text-xs text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+            >
+              <LogOut size={14} />
+              Se d&eacute;connecter
+            </button>
+          </div>
+        )}
       </aside>
     </>
   )
