@@ -27,6 +27,10 @@ function withTimeout<T>(promise: Promise<T>, ms = 15_000, label = 'Firestore'): 
   })
 }
 
+function logDebug(msg: string, data?: unknown) {
+  console.log(`[firebase] ${msg}`, data ?? '')
+}
+
 export async function listDocs(
   col: string,
   constraints: QueryConstraint[] = [],
@@ -46,31 +50,54 @@ export async function getDocById(col: string, id: string): Promise<(DocumentData
 }
 
 export async function createDoc(col: string, data: DocumentData): Promise<string> {
+  logDebug(`createDoc(${col}) START`)
+  logDebug(`isFirebaseConfigured: ${isFirebaseConfigured}`)
+  logDebug(`projectId from env: ${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}`)
+
   if (!isFirebaseConfigured) {
     throw new Error('Firebase non configuré. Ajoutez les variables NEXT_PUBLIC_FIREBASE_* dans .env.local')
   }
-  const user = getAuthInstance().currentUser
-  console.log(`[admin-crud] createDoc(${col}) — user:`, user?.email ?? 'non connecté')
-  const ref = await withTimeout(
-    addDoc(collection(getDb(), col), {
-      ...data,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-      updatedBy: user?.uid ?? 'anonymous',
-    }),
-    15_000,
-    `createDoc(${col})`
-  )
-  console.log(`[admin-crud] ✅ Document créé: ${col}/${ref.id}`)
-  return ref.id
+
+  let db
+  try {
+    db = getDb()
+    logDebug(`getDb() OK — app: ${db.app.options.projectId}`)
+  } catch (e) {
+    logDebug(`getDb() FAILED`, e)
+    throw e
+  }
+
+  const auth = getAuthInstance()
+  const user = auth.currentUser
+  logDebug(`auth.currentUser: ${user?.email ?? 'null'} (uid: ${user?.uid ?? 'none'})`)
+
+  logDebug(`addDoc to ${col}...`)
+  try {
+    const ref = await withTimeout(
+      addDoc(collection(db, col), {
+        ...data,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        updatedBy: user?.uid ?? 'anonymous',
+      }),
+      15_000,
+      `createDoc(${col})`
+    )
+    logDebug(`✅ Document créé: ${col}/${ref.id}`)
+    return ref.id
+  } catch (e: unknown) {
+    logDebug(`❌ addDoc FAILED`, e)
+    throw e
+  }
 }
 
 export async function updateDocById(col: string, id: string, data: DocumentData): Promise<void> {
+  logDebug(`updateDoc(${col}/${id}) START`)
   if (!isFirebaseConfigured) {
-    throw new Error('Firebase non configuré. Ajoutez les variables NEXT_PUBLIC_FIREBASE_* dans .env.local')
+    throw new Error('Firebase non configuré.')
   }
   const user = getAuthInstance().currentUser
-  console.log(`[admin-crud] updateDoc(${col}/${id}) — user:`, user?.email ?? 'non connecté')
+  logDebug(`auth.currentUser: ${user?.email ?? 'null'}`)
   await withTimeout(
     updateDoc(doc(getDb(), col, id), {
       ...data,
@@ -80,14 +107,11 @@ export async function updateDocById(col: string, id: string, data: DocumentData)
     15_000,
     `updateDoc(${col}/${id})`
   )
-  console.log(`[admin-crud] ✅ Document mis à jour: ${col}/${id}`)
+  logDebug(`✅ Document mis à jour: ${col}/${id}`)
 }
 
 export async function deleteDocById(col: string, id: string): Promise<void> {
-  if (!isFirebaseConfigured) {
-    throw new Error('Firebase non configuré.')
-  }
-  console.log(`[admin-crud] deleteDoc(${col}/${id})`)
+  if (!isFirebaseConfigured) throw new Error('Firebase non configuré.')
   await withTimeout(deleteDoc(doc(getDb(), col, id)), 10_000, `deleteDoc(${col}/${id})`)
-  console.log(`[admin-crud] ✅ Document supprimé: ${col}/${id}`)
+  logDebug(`✅ Document supprimé: ${col}/${id}`)
 }
