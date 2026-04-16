@@ -61,9 +61,10 @@ export default function AdminGalerie() {
       duration: current.type === 'video' ? (current.duration || null) : null,
       uploadedBy: 'admin',
     }
-    if (editId) await update(editId, data)
-    else await create(data)
-    setModal(null)
+    let success = false
+    if (editId) success = await update(editId, data)
+    else success = !!(await create(data))
+    if (success) setModal(null)
   }
 
   async function handleDelete() {

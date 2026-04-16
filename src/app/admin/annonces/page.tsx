@@ -62,9 +62,10 @@ export default function AdminAnnonces() {
       expiresAt: current.expiresStr ? Timestamp.fromDate(new Date(current.expiresStr)) : null,
       updatedBy: 'admin',
     }
-    if (editId) await update(editId, data)
-    else await create(data)
-    setModal(null)
+    let success = false
+    if (editId) success = await update(editId, data)
+    else success = !!(await create(data))
+    if (success) setModal(null)
   }
 
   async function handleDelete() {

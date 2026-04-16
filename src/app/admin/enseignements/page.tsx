@@ -64,12 +64,13 @@ export default function AdminEnseignements() {
       updatedBy: 'admin',
     }
 
+    let success = false
     if (editId) {
-      await update(editId, data)
+      success = await update(editId, data)
     } else {
-      await create(data)
+      success = !!(await create(data))
     }
-    setModal(null)
+    if (success) setModal(null)
   }
 
   async function handleDelete() {

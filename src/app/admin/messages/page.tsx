@@ -59,15 +59,16 @@ export default function AdminMessages() {
       tags: current.tags || [],
       featured: current.featured || false,
       publishedAt: Timestamp.now(),
-      updatedBy: 'admin',
     }
 
+    let success = false
     if (editId) {
-      await update(editId, data)
+      success = await update(editId, data)
     } else {
-      await create(data)
+      const id = await create(data)
+      success = !!id
     }
-    setModal(null)
+    if (success) setModal(null)
   }
 
   async function handleDelete() {
