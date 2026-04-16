@@ -69,7 +69,7 @@ export default function TeachingCard({ teaching, locale }: Props) {
             {isText ? <BookOpen className="w-3 h-3" /> : <Headphones className="w-3 h-3" />}
             {isText
               ? (locale === 'fr' ? 'Texte' : 'Text')
-              : (locale === 'fr' ? 'Audio' : 'Audio')
+              : (locale === 'fr' ? 'Podcast' : 'Podcast')
             }
           </span>
           {!isText && teaching.audioDuration && !teaching.coverImageUrl && (

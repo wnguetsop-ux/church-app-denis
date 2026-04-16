@@ -96,7 +96,7 @@ export default function AdminEnseignements() {
           </div>
           <div>
             <h1 className="font-lora text-xl font-semibold text-gray-900">Enseignements</h1>
-            <p className="text-sm text-gray-500">Textes et audios d&apos;enseignement biblique</p>
+            <p className="text-sm text-gray-500">Textes et podcasts d&apos;enseignement biblique</p>
           </div>
         </div>
         <button onClick={openCreate} className="flex items-center gap-2 bg-cifm-blue-600 text-white rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-cifm-blue-500 transition-colors">
@@ -115,7 +115,7 @@ export default function AdminEnseignements() {
           {(['all', 'text', 'audio'] as const).map(f => (
             <button key={f} onClick={() => setFilterType(f)}
               className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${filterType === f ? 'bg-white text-cifm-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
-              {f === 'all' ? 'Tous' : f === 'text' ? 'Textes' : 'Audios'}
+              {f === 'all' ? 'Tous' : f === 'text' ? 'Textes' : 'Podcasts'}
             </button>
           ))}
         </div>
@@ -175,7 +175,7 @@ export default function AdminEnseignements() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <Field label="Type">
             <Select value={current.type || 'text'} onChange={v => setCurrent(p => ({ ...p, type: v as 'text' | 'audio' }))}
-              options={[{ value: 'text', label: 'Texte écrit' }, { value: 'audio', label: 'Audio' }]} />
+              options={[{ value: 'text', label: 'Texte écrit' }, { value: 'audio', label: 'Podcast' }]} />
           </Field>
 
           <BilingualInput label="Titre" required

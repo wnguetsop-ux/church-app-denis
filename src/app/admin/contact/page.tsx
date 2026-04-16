@@ -18,7 +18,7 @@ interface ContactData {
 
 const EMPTY: ContactData = {
   phone: '',
-  email: 'tadumdenis@gmail.com',
+  email: 'sonsofmalachie4@gmail.com',
   address: '',
   youtube: '',
   tiktok: '',

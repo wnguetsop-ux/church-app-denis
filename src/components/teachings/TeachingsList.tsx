@@ -31,7 +31,7 @@ export default function TeachingsList({ locale }: Props) {
   const tabs: { key: TabType; label: { fr: string; en: string }; icon: typeof BookOpen; count: number }[] = [
     { key: 'all', label: { fr: 'Tous', en: 'All' }, icon: BookOpen, count: teachings.length },
     { key: 'text', label: { fr: 'Textes', en: 'Texts' }, icon: BookOpen, count: textCount },
-    { key: 'audio', label: { fr: 'Audios', en: 'Audios' }, icon: Headphones, count: audioCount },
+    { key: 'audio', label: { fr: 'Podcasts', en: 'Podcasts' }, icon: Headphones, count: audioCount },
   ]
 
   const filtered = activeTab === 'all'

@@ -60,8 +60,9 @@ export default function PrayerForm({ locale }: Props) {
         isPublic: form.isPublic,
       })
       setSubmitted(true)
-    } catch {
-      // Silently handle error — user sees no change
+    } catch (err) {
+      console.error('Prayer submit error:', err)
+      setErrors({ request: 'Erreur lors de l\'envoi. Veuillez réessayer.' })
     } finally {
       setSubmitting(false)
     }

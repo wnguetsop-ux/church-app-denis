@@ -60,7 +60,7 @@ function HomeContent() {
     { icon: BookOpen, labelFr: 'Enseignements', labelEn: 'Teachings', path: '/enseignements', color: 'from-indigo-500 to-indigo-600' },
     { icon: Video, labelFr: 'Vid\u00E9os', labelEn: 'Videos', path: '/videos', color: 'from-red-500 to-red-600' },
     { icon: FileText, labelFr: 'Textes', labelEn: 'Texts', path: '/textes', color: 'from-emerald-500 to-emerald-600' },
-    { icon: Music, labelFr: 'Audios', labelEn: 'Audios', path: '/audios', color: 'from-purple-500 to-purple-600' },
+    { icon: Music, labelFr: 'Podcasts', labelEn: 'Podcasts', path: '/audios', color: 'from-purple-500 to-purple-600' },
     { icon: Bell, labelFr: 'Annonces', labelEn: 'News', path: '/annonces', color: 'from-amber-500 to-amber-600' },
     { icon: Calendar, labelFr: '\u00C9v\u00E9nements', labelEn: 'Events', path: '/evenements', color: 'from-teal-500 to-teal-600' },
     { icon: ImageIcon, labelFr: 'Galerie', labelEn: 'Gallery', path: '/galerie', color: 'from-pink-500 to-pink-600' },

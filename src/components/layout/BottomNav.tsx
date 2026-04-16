@@ -19,15 +19,15 @@ const mainTabs = [
 ]
 
 const morePages = [
-  { key: 'enseignements', icon: BookOpen, labelFr: 'Enseignements', labelEn: 'Teachings', path: '/enseignements' },
-  { key: 'videos', icon: Video, labelFr: 'Vidéos', labelEn: 'Videos', path: '/videos' },
-  { key: 'textes', icon: FileText, labelFr: 'Textes', labelEn: 'Texts', path: '/textes' },
-  { key: 'audios', icon: Music, labelFr: 'Audios', labelEn: 'Audios', path: '/audios' },
-  { key: 'evenements', icon: Calendar, labelFr: 'Événements', labelEn: 'Events', path: '/evenements' },
-  { key: 'priere', icon: HandHeart, labelFr: 'Prière', labelEn: 'Prayer', path: '/priere' },
-  { key: 'dons', icon: Heart, labelFr: 'Dons', labelEn: 'Give', path: '/dons' },
-  { key: 'a-propos', icon: Info, labelFr: 'À propos', labelEn: 'About', path: '/a-propos' },
-  { key: 'contact', icon: Phone, labelFr: 'Contact', labelEn: 'Contact', path: '/contact' },
+  { key: 'enseignements', icon: BookOpen, labelFr: 'Enseignements', labelEn: 'Teachings', path: '/enseignements', color: 'text-indigo-600', bgColor: 'bg-indigo-100', activeGrad: 'bg-indigo-600' },
+  { key: 'videos', icon: Video, labelFr: 'Vidéos', labelEn: 'Videos', path: '/videos', color: 'text-rose-500', bgColor: 'bg-rose-100', activeGrad: 'bg-rose-500' },
+  { key: 'textes', icon: FileText, labelFr: 'Textes', labelEn: 'Texts', path: '/textes', color: 'text-emerald-600', bgColor: 'bg-emerald-100', activeGrad: 'bg-emerald-600' },
+  { key: 'audios', icon: Music, labelFr: 'Podcasts', labelEn: 'Podcasts', path: '/audios', color: 'text-purple-600', bgColor: 'bg-purple-100', activeGrad: 'bg-purple-600' },
+  { key: 'evenements', icon: Calendar, labelFr: 'Événements', labelEn: 'Events', path: '/evenements', color: 'text-teal-600', bgColor: 'bg-teal-100', activeGrad: 'bg-teal-600' },
+  { key: 'priere', icon: HandHeart, labelFr: 'Prière', labelEn: 'Prayer', path: '/priere', color: 'text-sky-600', bgColor: 'bg-sky-100', activeGrad: 'bg-sky-600' },
+  { key: 'dons', icon: Heart, labelFr: 'Dons', labelEn: 'Give', path: '/dons', color: 'text-rose-600', bgColor: 'bg-rose-100', activeGrad: 'bg-rose-600' },
+  { key: 'a-propos', icon: Info, labelFr: 'À propos', labelEn: 'About', path: '/a-propos', color: 'text-slate-600', bgColor: 'bg-slate-100', activeGrad: 'bg-slate-600' },
+  { key: 'contact', icon: Phone, labelFr: 'Contact', labelEn: 'Contact', path: '/contact', color: 'text-cyan-600', bgColor: 'bg-cyan-100', activeGrad: 'bg-cyan-600' },
 ]
 
 export default function BottomNav({ locale }: { locale: string }) {
@@ -156,8 +156,8 @@ export default function BottomNav({ locale }: { locale: string }) {
                       >
                         <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-active:scale-110 ${
                           active
-                            ? 'bg-cifm-blue-600 text-white shadow-lg shadow-cifm-blue-600/30'
-                            : 'bg-gray-100 text-gray-500 group-hover:bg-cifm-blue-100 group-hover:text-cifm-blue-600 group-hover:shadow-[0_0_20px_rgba(37,99,235,0.15)]'
+                            ? `${page.activeGrad} text-white shadow-lg`
+                            : `${page.bgColor} ${page.color} group-hover:shadow-[0_0_20px_rgba(99,102,241,0.12)]`
                         }`}>
                           <Icon size={22} />
                         </div>

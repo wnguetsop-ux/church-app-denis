@@ -14,11 +14,12 @@ import {
   type QueryConstraint,
 } from 'firebase/firestore'
 import { getDb } from '../client'
+import { getAuthInstance } from '../client'
 
 export async function listDocs(
   col: string,
   constraints: QueryConstraint[] = [],
-  maxCount = 100
+  maxCount = 200
 ): Promise<(DocumentData & { id: string })[]> {
   const q = query(collection(getDb(), col), ...constraints, limit(maxCount))
   const snap = await getDocs(q)
@@ -32,18 +33,22 @@ export async function getDocById(col: string, id: string): Promise<(DocumentData
 }
 
 export async function createDoc(col: string, data: DocumentData): Promise<string> {
+  const user = getAuthInstance().currentUser
   const ref = await addDoc(collection(getDb(), col), {
     ...data,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
+    updatedBy: user?.uid ?? 'admin',
   })
   return ref.id
 }
 
 export async function updateDocById(col: string, id: string, data: DocumentData): Promise<void> {
+  const user = getAuthInstance().currentUser
   await updateDoc(doc(getDb(), col, id), {
     ...data,
     updatedAt: serverTimestamp(),
+    updatedBy: user?.uid ?? 'admin',
   })
 }
 

@@ -83,8 +83,8 @@ export default function Footer() {
           <div className="space-y-3">
             <p className="text-xs font-semibold tracking-wide uppercase text-blue-200/60">Contact</p>
             <div className="space-y-2">
-              <a href="mailto:tadumdenis@gmail.com" className="block text-blue-200/80 text-sm hover:text-white transition-colors">
-                tadumdenis@gmail.com
+              <a href="mailto:sonsofmalachie4@gmail.com" className="block text-blue-200/80 text-sm hover:text-white transition-colors">
+                sonsofmalachie4@gmail.com
               </a>
               <p className="text-blue-300/50 text-xs">communautedesfilsdemalachie4.com</p>
             </div>

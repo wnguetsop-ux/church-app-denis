@@ -6,7 +6,12 @@ const isFirebaseConfigured = !!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
 
 async function fetchPrayers(): Promise<PrayerRequest[]> {
   if (!isFirebaseConfigured) return []
-  return getPublicPrayers()
+  try {
+    return await getPublicPrayers()
+  } catch (err) {
+    console.error('[use-prayers] Fetch error:', err)
+    return []
+  }
 }
 
 export function usePublicPrayers() {
@@ -31,9 +36,14 @@ export async function submitPrayer(data: {
     await new Promise(resolve => setTimeout(resolve, 600))
     return 'simulated-id'
   }
-  const id = await submitPrayerRequest(data)
-  mutate('prayers-public')
-  return id
+  try {
+    const id = await submitPrayerRequest(data)
+    mutate('prayers-public')
+    return id
+  } catch (err) {
+    console.error('[use-prayers] Submit error:', err)
+    throw err // Re-throw so the form can show an error
+  }
 }
 
 export async function prayFor(id: string): Promise<void> {

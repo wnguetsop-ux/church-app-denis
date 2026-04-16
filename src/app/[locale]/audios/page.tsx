@@ -21,8 +21,8 @@ export default function AudiosPage() {
   return (
     <div>
       <PageHeader
-        title={locale === 'fr' ? 'Enseignements Audio' : 'Audio Teachings'}
-        subtitle={locale === 'fr' ? '\u00C9couter les messages audio de la CIFM4' : 'Listen to audio messages from CIFM4'}
+        title={locale === 'fr' ? 'Podcasts' : 'Podcasts'}
+        subtitle={locale === 'fr' ? '\u00C9couter les podcasts de la CIFM4' : 'Listen to CIFM4 podcasts'}
         backgroundImage="/images/headers/hero-worship-stage.png"
       />
 
@@ -30,8 +30,8 @@ export default function AudiosPage() {
         <AnimatedSection>
           <p className="text-gray-500 text-sm mb-6">
             {locale === 'fr'
-              ? `${audioTeachings.length} enseignement(s) audio disponible(s)`
-              : `${audioTeachings.length} audio teaching(s) available`}
+              ? `${audioTeachings.length} podcast(s) disponible(s)`
+              : `${audioTeachings.length} podcast(s) available`}
           </p>
         </AnimatedSection>
 
@@ -96,7 +96,7 @@ export default function AudiosPage() {
                 </span>
               </div>
               <p className="text-center text-[10px] text-gray-400 mt-2">
-                {locale === 'fr' ? 'Audio bient\u00F4t disponible' : 'Audio coming soon'}
+                {locale === 'fr' ? 'Podcast bient\u00F4t disponible' : 'Podcast coming soon'}
               </p>
             </div>
           </motion.div>

@@ -59,14 +59,14 @@
   },
   "teachings": {
     "title": "Teachings",
-    "subtitle": "Biblical teaching texts and audios",
+    "subtitle": "Biblical teaching texts and podcasts",
     "tab_all": "All",
     "tab_texts": "Texts",
-    "tab_audios": "Audios",
+    "tab_audios": "Podcasts",
     "listen": "Listen",
     "read": "Read teaching",
     "text": "Text",
-    "audio": "Audio",
+    "audio": "Podcast",
     "no_content": "No teachings in this category yet."
   },
   "videos": {

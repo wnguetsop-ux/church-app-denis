@@ -100,7 +100,7 @@ function AProposContent() {
             </a>
           </div>
           <div className="pt-2 border-t border-gray-100 space-y-1">
-            <p className="text-gray-600 text-sm font-medium">tadumdenis@gmail.com</p>
+            <p className="text-gray-600 text-sm font-medium">sonsofmalachie4@gmail.com</p>
             <p className="text-gray-400 text-xs">communautedesfilsdemalachie4.com</p>
           </div>
         </div>

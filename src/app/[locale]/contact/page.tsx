@@ -47,8 +47,8 @@ function ContactContent() {
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-900">Email</p>
-                <a href="mailto:tadumdenis@gmail.com" className="text-sm text-cifm-blue-600 hover:underline">
-                  tadumdenis@gmail.com
+                <a href="mailto:sonsofmalachie4@gmail.com" className="text-sm text-cifm-blue-600 hover:underline">
+                  sonsofmalachie4@gmail.com
                 </a>
                 <p className="text-xs text-gray-400 mt-0.5">
                   {locale === 'fr' ? 'Réponse sous 24-48h' : 'Response within 24-48h'}

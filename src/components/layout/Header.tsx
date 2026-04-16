@@ -12,19 +12,19 @@ import {
 } from 'lucide-react'
 
 const allPages = [
-  { key: 'home', icon: Home, labelFr: 'Accueil', labelEn: 'Home', path: '' },
-  { key: 'messages', icon: Video, labelFr: 'Messages', labelEn: 'Sermons', path: '/messages' },
-  { key: 'enseignements', icon: BookOpen, labelFr: 'Enseignements', labelEn: 'Teachings', path: '/enseignements' },
-  { key: 'videos', icon: Video, labelFr: 'Vidéos', labelEn: 'Videos', path: '/videos' },
-  { key: 'textes', icon: FileText, labelFr: 'Textes', labelEn: 'Texts', path: '/textes' },
-  { key: 'audios', icon: Music, labelFr: 'Audios', labelEn: 'Audios', path: '/audios' },
-  { key: 'annonces', icon: Bell, labelFr: 'Annonces', labelEn: 'Announcements', path: '/annonces' },
-  { key: 'evenements', icon: Calendar, labelFr: 'Événements', labelEn: 'Events', path: '/evenements' },
-  { key: 'galerie', icon: ImageIcon, labelFr: 'Galerie', labelEn: 'Gallery', path: '/galerie' },
-  { key: 'priere', icon: HandHeart, labelFr: 'Prière', labelEn: 'Prayer', path: '/priere' },
-  { key: 'dons', icon: Heart, labelFr: 'Dons', labelEn: 'Give', path: '/dons' },
-  { key: 'a-propos', icon: Info, labelFr: 'À propos', labelEn: 'About', path: '/a-propos' },
-  { key: 'contact', icon: Phone, labelFr: 'Contact', labelEn: 'Contact', path: '/contact' },
+  { key: 'home', icon: Home, labelFr: 'Accueil', labelEn: 'Home', path: '', color: 'text-blue-600', bgHover: 'group-hover:bg-blue-50', bgActive: 'bg-blue-50', activeDot: 'bg-blue-600' },
+  { key: 'messages', icon: Video, labelFr: 'Messages', labelEn: 'Sermons', path: '/messages', color: 'text-red-500', bgHover: 'group-hover:bg-red-50', bgActive: 'bg-red-50', activeDot: 'bg-red-500' },
+  { key: 'enseignements', icon: BookOpen, labelFr: 'Enseignements', labelEn: 'Teachings', path: '/enseignements', color: 'text-indigo-600', bgHover: 'group-hover:bg-indigo-50', bgActive: 'bg-indigo-50', activeDot: 'bg-indigo-600' },
+  { key: 'videos', icon: Video, labelFr: 'Vidéos', labelEn: 'Videos', path: '/videos', color: 'text-rose-500', bgHover: 'group-hover:bg-rose-50', bgActive: 'bg-rose-50', activeDot: 'bg-rose-500' },
+  { key: 'textes', icon: FileText, labelFr: 'Textes', labelEn: 'Texts', path: '/textes', color: 'text-emerald-600', bgHover: 'group-hover:bg-emerald-50', bgActive: 'bg-emerald-50', activeDot: 'bg-emerald-600' },
+  { key: 'audios', icon: Music, labelFr: 'Podcasts', labelEn: 'Podcasts', path: '/audios', color: 'text-purple-600', bgHover: 'group-hover:bg-purple-50', bgActive: 'bg-purple-50', activeDot: 'bg-purple-600' },
+  { key: 'annonces', icon: Bell, labelFr: 'Annonces', labelEn: 'Announcements', path: '/annonces', color: 'text-amber-500', bgHover: 'group-hover:bg-amber-50', bgActive: 'bg-amber-50', activeDot: 'bg-amber-500' },
+  { key: 'evenements', icon: Calendar, labelFr: 'Événements', labelEn: 'Events', path: '/evenements', color: 'text-teal-600', bgHover: 'group-hover:bg-teal-50', bgActive: 'bg-teal-50', activeDot: 'bg-teal-600' },
+  { key: 'galerie', icon: ImageIcon, labelFr: 'Galerie', labelEn: 'Gallery', path: '/galerie', color: 'text-pink-500', bgHover: 'group-hover:bg-pink-50', bgActive: 'bg-pink-50', activeDot: 'bg-pink-500' },
+  { key: 'priere', icon: HandHeart, labelFr: 'Prière', labelEn: 'Prayer', path: '/priere', color: 'text-sky-600', bgHover: 'group-hover:bg-sky-50', bgActive: 'bg-sky-50', activeDot: 'bg-sky-600' },
+  { key: 'dons', icon: Heart, labelFr: 'Dons', labelEn: 'Give', path: '/dons', color: 'text-rose-600', bgHover: 'group-hover:bg-rose-50', bgActive: 'bg-rose-50', activeDot: 'bg-rose-600' },
+  { key: 'a-propos', icon: Info, labelFr: 'À propos', labelEn: 'About', path: '/a-propos', color: 'text-slate-600', bgHover: 'group-hover:bg-slate-50', bgActive: 'bg-slate-50', activeDot: 'bg-slate-600' },
+  { key: 'contact', icon: Phone, labelFr: 'Contact', labelEn: 'Contact', path: '/contact', color: 'text-cyan-600', bgHover: 'group-hover:bg-cyan-50', bgActive: 'bg-cyan-50', activeDot: 'bg-cyan-600' },
 ]
 
 export default function Header({ locale }: { locale: string }) {
@@ -103,13 +103,13 @@ export default function Header({ locale }: { locale: string }) {
                   >
                     <div className={`flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl transition-all duration-300
                       ${active
-                        ? 'text-cifm-blue-600 bg-cifm-blue-50'
-                        : 'text-gray-500 hover:text-cifm-blue-600'
+                        ? `${page.color} ${page.bgActive}`
+                        : `text-gray-400 hover:${page.color}`
                       }`}
                     >
                       {/* Glow effect behind icon on hover */}
-                      <div className="absolute inset-0 rounded-xl bg-cifm-blue-400/0 group-hover:bg-cifm-blue-50 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(37,99,235,0.15)]" />
-                      <div className="relative z-10 transition-transform duration-300 group-hover:scale-125">
+                      <div className={`absolute inset-0 rounded-xl bg-transparent ${page.bgHover} transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(99,102,241,0.12)]`} />
+                      <div className={`relative z-10 transition-all duration-300 group-hover:scale-125 ${!active ? page.color : ''}`}>
                         <Icon size={20} strokeWidth={active ? 2.2 : 1.8} />
                       </div>
                       <span className="relative z-10 text-[9px] font-medium leading-tight whitespace-nowrap">
@@ -120,7 +120,7 @@ export default function Header({ locale }: { locale: string }) {
                     {active && (
                       <motion.div
                         layoutId="activeTab"
-                        className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cifm-blue-600"
+                        className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${page.activeDot}`}
                         transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                       />
                     )}
@@ -223,8 +223,8 @@ export default function Header({ locale }: { locale: string }) {
                             : 'text-gray-600 hover:bg-gray-50 hover:text-cifm-blue-600'
                         }`}
                       >
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_16px_rgba(37,99,235,0.2)] ${
-                          active ? 'bg-cifm-blue-600 text-white' : 'bg-gray-100 text-gray-500 group-hover:bg-cifm-blue-100 group-hover:text-cifm-blue-600'
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_16px_rgba(99,102,241,0.15)] ${
+                          active ? 'bg-gray-900 text-white' : `bg-gray-50 ${page.color} group-hover:bg-gray-100`
                         }`}>
                           <Icon size={20} />
                         </div>
