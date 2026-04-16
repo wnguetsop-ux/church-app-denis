@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, SlidersHorizontal } from 'lucide-react'
-import { sermons, getFeaturedSermon } from '@/data/sermons-data'
+import { useSermons } from '@/lib/hooks/use-sermons'
 import SermonCard from './SermonCard'
 import type { Locale } from '@/types'
 
@@ -21,20 +21,40 @@ const staggerContainer = {
 
 export default function SermonList({ locale }: Props) {
   const [searchQuery, setSearchQuery] = useState('')
-  const featured = getFeaturedSermon()
+  const { sermons, isLoading } = useSermons()
+
+  const featured = sermons.find(s => s.featured) ?? sermons[0] ?? null
 
   const filteredSermons = sermons.filter(s => {
     if (!searchQuery.trim()) return true
     const q = searchQuery.toLowerCase()
+    const title = typeof s.title === 'string' ? s.title : s.title[locale]
+    const desc = typeof s.description === 'string' ? s.description : s.description[locale]
     return (
-      s.title[locale].toLowerCase().includes(q) ||
-      s.description[locale].toLowerCase().includes(q) ||
+      title.toLowerCase().includes(q) ||
+      desc.toLowerCase().includes(q) ||
       s.speaker.toLowerCase().includes(q) ||
-      s.tags.some(tag => tag.toLowerCase().includes(q))
+      s.tags.some((tag: string) => tag.toLowerCase().includes(q))
     )
   })
 
-  const nonFeatured = filteredSermons.filter(s => s.id !== featured.id)
+  const nonFeatured = featured
+    ? filteredSermons.filter(s => s.id !== featured.id)
+    : filteredSermons
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="bg-white rounded-2xl p-4 shadow-sm animate-pulse">
+            <div className="aspect-video bg-gray-100 rounded-xl mb-3" />
+            <div className="h-4 bg-gray-100 rounded w-3/4 mb-2" />
+            <div className="h-3 bg-gray-100 rounded w-1/2" />
+          </div>
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">

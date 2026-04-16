@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { BookOpen, Headphones } from 'lucide-react'
-import { teachings, getTextTeachings, getAudioTeachings } from '@/data/teachings-data'
+import { useTeachings } from '@/lib/hooks/use-teachings'
 import TeachingCard from './TeachingCard'
 import type { Locale } from '@/types'
 
@@ -23,19 +23,34 @@ const staggerContainer = {
 
 export default function TeachingsList({ locale }: Props) {
   const [activeTab, setActiveTab] = useState<TabType>('all')
+  const { teachings, isLoading } = useTeachings()
 
-  const textCount = getTextTeachings().length
-  const audioCount = getAudioTeachings().length
+  const textCount = teachings.filter(t => t.type === 'text').length
+  const audioCount = teachings.filter(t => t.type === 'audio').length
 
   const tabs: { key: TabType; label: { fr: string; en: string }; icon: typeof BookOpen; count: number }[] = [
     { key: 'all', label: { fr: 'Tous', en: 'All' }, icon: BookOpen, count: teachings.length },
     { key: 'text', label: { fr: 'Textes', en: 'Texts' }, icon: BookOpen, count: textCount },
-    { key: 'audio', label: { fr: 'Audios', en: 'Audios' }, icon: Headphones, count: audioCount },
+    { key: 'audio', label: { fr: 'Podcasts', en: 'Podcasts' }, icon: Headphones, count: audioCount },
   ]
 
   const filtered = activeTab === 'all'
     ? teachings
     : teachings.filter(t => t.type === activeTab)
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="bg-white rounded-2xl p-4 shadow-sm animate-pulse">
+            <div className="h-4 bg-gray-100 rounded w-2/3 mb-2" />
+            <div className="h-3 bg-gray-100 rounded w-full mb-1" />
+            <div className="h-3 bg-gray-100 rounded w-4/5" />
+          </div>
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">

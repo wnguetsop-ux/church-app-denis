@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Send, CheckCircle, User, MessageSquare, Heart, Globe } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
+import { submitPrayer } from '@/lib/hooks/use-prayers'
 import type { Locale } from '@/types'
 
 interface Props {
@@ -52,19 +53,19 @@ export default function PrayerForm({ locale }: Props) {
 
     setSubmitting(true)
 
-    // Simulate submission — will be replaced by Firebase call:
-    // await submitPrayerRequest({
-    //   name: form.name || null,
-    //   subject: form.subject || null,
-    //   request: form.request,
-    //   contact: form.contact || null,
-    //   isPublic: form.isPublic,
-    //   language: form.language,
-    // })
-    await new Promise(resolve => setTimeout(resolve, 800))
-
-    setSubmitting(false)
-    setSubmitted(true)
+    try {
+      await submitPrayer({
+        name: form.name || null,
+        request: form.request,
+        isPublic: form.isPublic,
+      })
+      setSubmitted(true)
+    } catch (err) {
+      console.error('Prayer submit error:', err)
+      setErrors({ request: 'Erreur lors de l\'envoi. Veuillez réessayer.' })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   function handleReset() {

@@ -100,43 +100,46 @@ export default function HeroSlider({ slides, interval = 6000, logo }: Props) {
         </motion.div>
       </AnimatePresence>
 
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-cifm-blue-900/90 via-cifm-blue-900/40 to-cifm-blue-900/20" />
+      {/* Gradient overlay — dual gradient for depth */}
+      <div className="absolute inset-0 bg-gradient-to-t from-cifm-blue-900/90 via-cifm-blue-900/35 to-cifm-blue-900/15" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-transparent" />
 
-      {/* Content */}
-      <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-        <div className="max-w-2xl mx-auto space-y-5">
-          {/* Logo on first slide */}
-          {logo && current === 0 && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex justify-center mb-2"
-            >
-              <Image
-                src={logo}
-                alt="CIFM4"
-                width={72}
-                height={72}
-                className="rounded-2xl shadow-lg shadow-black/20"
-              />
-            </motion.div>
+      {/* Content — centered with safe top padding for header */}
+      <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4 pt-16 pb-12">
+        <div className="max-w-2xl mx-auto space-y-4">
+          {/* Logo badge — persistent, elegant */}
+          {logo && (
+            <div className="flex flex-col items-center gap-2.5">
+              <div className="relative p-1 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15">
+                <Image
+                  src={logo}
+                  alt="CIFM4"
+                  width={56}
+                  height={56}
+                  className="rounded-xl"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-[1px] bg-gradient-to-r from-transparent to-cifm-gold-400/70" />
+                <span className="text-[10px] tracking-[0.25em] uppercase text-cifm-gold-400/90 font-semibold">CIFM4</span>
+                <div className="w-8 h-[1px] bg-gradient-to-l from-transparent to-cifm-gold-400/70" />
+              </div>
+            </div>
           )}
 
           <AnimatePresence mode="wait">
             <motion.div
               key={`content-${current}`}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="space-y-4"
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="space-y-3"
             >
-              <h1 className="font-lora text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight drop-shadow-lg">
+              <h1 className="font-lora text-2xl md:text-3xl lg:text-4xl font-semibold leading-snug drop-shadow-lg">
                 {slide.title}
               </h1>
-              <p className="text-blue-100 text-lg leading-relaxed max-w-lg mx-auto drop-shadow-md">
+              <p className="text-white/80 text-base md:text-lg leading-relaxed max-w-md mx-auto drop-shadow-md">
                 {slide.subtitle}
               </p>
             </motion.div>
@@ -147,8 +150,8 @@ export default function HeroSlider({ slides, interval = 6000, logo }: Props) {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-3 justify-center pt-2"
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="flex flex-col sm:flex-row gap-3 justify-center pt-1"
             >
               {slide.cta && (
                 <a
@@ -161,7 +164,7 @@ export default function HeroSlider({ slides, interval = 6000, logo }: Props) {
               {slide.ctaSecondary && (
                 <a
                   href={slide.ctaSecondary.href}
-                  className="border border-white/40 text-white rounded-full px-6 py-3 hover:bg-white/10 active:scale-[0.97] transition-all"
+                  className="border border-white/30 text-white rounded-full px-6 py-3 hover:bg-white/10 active:scale-[0.97] transition-all"
                 >
                   {slide.ctaSecondary.label}
                 </a>

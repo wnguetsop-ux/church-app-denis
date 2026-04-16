@@ -1,12 +1,12 @@
 import { collection, query, orderBy, limit, getDocs, addDoc, doc, updateDoc, increment, where, serverTimestamp } from 'firebase/firestore'
-import { db } from '../client'
+import { getDb } from '../client'
 import type { PrayerRequest } from '@/types'
 
 const COL = 'prayers'
 
 export async function getPublicPrayers(count = 20): Promise<PrayerRequest[]> {
   const q = query(
-    collection(db, COL),
+    collection(getDb(), COL),
     where('isPublic', '==', true),
     orderBy('createdAt', 'desc'),
     limit(count)
@@ -20,7 +20,7 @@ export async function submitPrayerRequest(data: {
   request: string
   isPublic: boolean
 }): Promise<string> {
-  const ref = await addDoc(collection(db, COL), {
+  const ref = await addDoc(collection(getDb(), COL), {
     ...data,
     prayedForCount: 0,
     createdAt: serverTimestamp(),
@@ -29,7 +29,7 @@ export async function submitPrayerRequest(data: {
 }
 
 export async function incrementPrayedFor(id: string): Promise<void> {
-  await updateDoc(doc(db, COL, id), {
+  await updateDoc(doc(getDb(), COL, id), {
     prayedForCount: increment(1)
   })
 }

@@ -1,13 +1,9 @@
+'use client'
+
+import Image from 'next/image'
+import { useLocale } from 'next-intl'
+
 const socialLinks = [
-  {
-    name: 'Facebook',
-    href: 'https://www.facebook.com/communautedesfilsdemalachie4',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
-      </svg>
-    ),
-  },
   {
     name: 'YouTube',
     href: 'https://www.youtube.com/@communauteinternationalede1948',
@@ -29,35 +25,97 @@ const socialLinks = [
 ]
 
 export default function Footer() {
-  return (
-    <footer className="hidden md:block bg-cifm-blue-700 text-white px-4 py-10 mt-16">
-      <div className="max-w-2xl mx-auto text-center space-y-4">
-        <p className="font-lora text-lg font-semibold">
-          Communaut&eacute; Internationale des Fils de Malachie 4
-        </p>
-        <p className="text-blue-200 text-sm">
-          CIFM4 &middot; tadumdenis@gmail.com
-        </p>
+  const locale = useLocale()
 
-        {/* Social links */}
-        <div className="flex justify-center gap-3 pt-1">
-          {socialLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={link.name}
-              className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-            >
-              {link.icon}
-            </a>
-          ))}
+  const quickLinks = [
+    { label: locale === 'fr' ? 'Messages' : 'Sermons', href: `/${locale}/messages` },
+    { label: locale === 'fr' ? 'Enseignements' : 'Teachings', href: `/${locale}/enseignements` },
+    { label: locale === 'fr' ? 'Vidéos' : 'Videos', href: `/${locale}/videos` },
+    { label: locale === 'fr' ? 'Galerie' : 'Gallery', href: `/${locale}/galerie` },
+    { label: locale === 'fr' ? 'Prière' : 'Prayer', href: `/${locale}/priere` },
+    { label: locale === 'fr' ? 'Dons' : 'Give', href: `/${locale}/dons` },
+  ]
+
+  return (
+    <footer className="bg-cifm-blue-700 text-white mt-16">
+      <div className="max-w-4xl mx-auto px-4 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Colonne 1 — Identité */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <Image
+                src="/images/logo/logo-cifm4.png"
+                alt="CIFM4"
+                width={40}
+                height={40}
+                className="rounded-lg"
+              />
+              <div>
+                <p className="font-lora text-sm font-semibold leading-snug">CIFM4</p>
+                <p className="text-blue-300/70 text-[10px] tracking-wide">C. I. F. M. 4</p>
+              </div>
+            </div>
+            <p className="text-blue-200/80 text-xs leading-relaxed">
+              {locale === 'fr'
+                ? 'Communauté Internationale des Fils de Malachie 4 — Organisation chrétienne à but non lucratif.'
+                : 'International Community of the Sons of Malachi 4 — Non-profit Christian organization.'}
+            </p>
+            <p className="text-blue-300/50 text-[10px] italic">
+              {locale === 'fr' ? 'Malachie 4:5-6' : 'Malachi 4:5-6'}
+            </p>
+          </div>
+
+          {/* Colonne 2 — Liens rapides (desktop) */}
+          <div className="hidden md:block space-y-3">
+            <p className="text-xs font-semibold tracking-wide uppercase text-blue-200/60">Navigation</p>
+            <ul className="space-y-1.5">
+              {quickLinks.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} className="text-blue-200/80 text-sm hover:text-white transition-colors">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Colonne 3 — Contact + Réseaux */}
+          <div className="space-y-3">
+            <p className="text-xs font-semibold tracking-wide uppercase text-blue-200/60">Contact</p>
+            <div className="space-y-2">
+              <a href="mailto:sonsofmalachie4@gmail.com" className="block text-blue-200/80 text-sm hover:text-white transition-colors">
+                sonsofmalachie4@gmail.com
+              </a>
+              <p className="text-blue-300/50 text-xs">communautedesfilsdemalachie4.com</p>
+            </div>
+            <div className="flex gap-2 pt-1">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.name}
+                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                >
+                  {link.icon}
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
 
-        <p className="text-blue-300/60 text-xs pt-2">
-          &copy; {new Date().getFullYear()} CIFM4 &middot; communautedesfilsdemalachie4.com
-        </p>
+        {/* Copyright */}
+        <div className="border-t border-white/10 mt-8 pt-5 flex flex-col sm:flex-row justify-between items-center gap-2">
+          <p className="text-blue-300/50 text-xs">
+            &copy; {new Date().getFullYear()} Communauté Internationale des Fils de Malachie 4
+          </p>
+          <div className="flex items-center gap-1.5">
+            <div className="w-4 h-[1px] bg-cifm-gold-400/40" />
+            <span className="text-[9px] tracking-widest uppercase text-cifm-gold-400/50 font-medium">CIFM4</span>
+            <div className="w-4 h-[1px] bg-cifm-gold-400/40" />
+          </div>
+        </div>
       </div>
     </footer>
   )

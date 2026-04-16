@@ -20,7 +20,7 @@ function EnseignementsContent({ locale }: { locale: Locale }) {
     <div>
       <PageHeader
         title={t('teachings.title')}
-        subtitle={locale === 'fr' ? 'Textes et audios d\'enseignement biblique' : 'Biblical teaching texts and audios'}
+        subtitle={locale === 'fr' ? 'Textes et podcasts d\'enseignement biblique' : 'Biblical teaching texts and podcasts'}
         backgroundImage="/images/headers/hero-bible-teaching.png"
       />
       <AnimatedSection className="max-w-3xl mx-auto px-4 py-8">

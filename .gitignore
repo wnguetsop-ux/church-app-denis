@@ -39,8 +39,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-.aidesigner/*
-!.aidesigner/.gitkeep
-
-# Videos go to Firebase Storage, not git
-/public/gallery/videos/
+.env*.local

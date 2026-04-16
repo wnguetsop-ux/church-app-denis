@@ -4,8 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Play, Video, Film, Calendar, User, Clock } from 'lucide-react'
 import Image from 'next/image'
-import { sermons } from '@/data/sermons-data'
-import { galleryItems } from '@/data/gallery-data'
+import { useVideoSermons, useGalleryVideos } from '@/lib/hooks/use-videos'
 import type { Locale } from '@/types'
 
 interface Props {
@@ -29,14 +28,30 @@ const cardVariants = {
 
 export default function VideoHub({ locale }: Props) {
   const [activeTab, setActiveTab] = useState<TabType>('all')
-
-  const galleryVideos = galleryItems.filter(item => item.type === 'video')
+  const { sermons, isLoading } = useVideoSermons()
+  const { videos: galleryVideos } = useGalleryVideos()
 
   const tabs: { key: TabType; label: { fr: string; en: string }; icon: typeof Video; count: number }[] = [
     { key: 'all', label: { fr: 'Toutes', en: 'All' }, icon: Play, count: sermons.length + galleryVideos.length },
     { key: 'sermons', label: { fr: 'Sermons YouTube', en: 'YouTube Sermons' }, icon: Video, count: sermons.length },
     { key: 'clips', label: { fr: 'Clips courts', en: 'Short Clips' }, icon: Film, count: galleryVideos.length },
   ]
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="bg-white rounded-2xl shadow-sm animate-pulse overflow-hidden">
+            <div className="aspect-video bg-gray-100" />
+            <div className="p-4 space-y-2">
+              <div className="h-4 bg-gray-100 rounded w-3/4" />
+              <div className="h-3 bg-gray-100 rounded w-1/2" />
+            </div>
+          </div>
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">
@@ -78,11 +93,13 @@ export default function VideoHub({ locale }: Props) {
         >
           {/* YouTube sermons */}
           {(activeTab === 'all' || activeTab === 'sermons') &&
-            sermons.map(sermon => {
+            sermons.map((sermon: any) => {
               const isPlaceholder = sermon.youtubeVideoId.startsWith('_placeholder')
               const thumbnailUrl = isPlaceholder
                 ? null
                 : `https://img.youtube.com/vi/${sermon.youtubeVideoId}/mqdefault.jpg`
+
+              const title = typeof sermon.title === 'string' ? sermon.title : sermon.title[locale]
 
               const date = new Date(sermon.publishedAt).toLocaleDateString(
                 locale === 'fr' ? 'fr-FR' : 'en-US',
@@ -100,7 +117,7 @@ export default function VideoHub({ locale }: Props) {
                     {thumbnailUrl ? (
                       <Image
                         src={thumbnailUrl}
-                        alt={sermon.title[locale]}
+                        alt={title}
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 320px"
@@ -110,13 +127,11 @@ export default function VideoHub({ locale }: Props) {
                         <Play className="w-8 h-8 text-white/40" />
                       </div>
                     )}
-                    {/* Play overlay */}
                     <div className="absolute inset-0 bg-black/10 hover:bg-black/25 transition-colors flex items-center justify-center">
                       <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow">
                         <Play className="w-4 h-4 text-cifm-blue-700 ml-0.5" fill="currentColor" />
                       </div>
                     </div>
-                    {/* YouTube badge */}
                     <div className="absolute top-2 right-2">
                       <span className="bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1">
                         <Video className="w-3 h-3" />
@@ -126,7 +141,7 @@ export default function VideoHub({ locale }: Props) {
                   </div>
                   <div className="p-4 space-y-1.5">
                     <h3 className="font-lora text-sm font-semibold text-gray-900 leading-snug line-clamp-2">
-                      {sermon.title[locale]}
+                      {title}
                     </h3>
                     <div className="flex items-center gap-3 text-xs text-gray-400">
                       <span className="flex items-center gap-1">
@@ -146,7 +161,7 @@ export default function VideoHub({ locale }: Props) {
 
           {/* Gallery short clips */}
           {(activeTab === 'all' || activeTab === 'clips') &&
-            galleryVideos.map(video => (
+            galleryVideos.map((video: any) => (
               <motion.div
                 key={video.id}
                 variants={cardVariants}
@@ -165,7 +180,6 @@ export default function VideoHub({ locale }: Props) {
                       <Play className="w-4 h-4 text-gray-800 ml-0.5" fill="currentColor" />
                     </div>
                   </div>
-                  {/* Clip badge */}
                   <div className="absolute top-2 right-2">
                     <span className="bg-gray-800/80 text-white text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1">
                       <Film className="w-3 h-3" />

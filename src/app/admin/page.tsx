@@ -24,7 +24,7 @@ const sections: SectionCard[] = [
   {
     href: '/admin/enseignements',
     label: 'Enseignements',
-    description: 'Textes et audios',
+    description: 'Textes et podcasts',
     icon: BookOpen,
     color: 'bg-purple-50 text-purple-600',
   },

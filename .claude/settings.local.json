@@ -28,7 +28,24 @@
       "Bash(cp \"C:/Users/Utente/AppData/Local/Temp/gemini-1775856520801-g8o34vs3gh.png\" hero-community-joy.png)",
       "Bash(cp \"C:/Users/Utente/AppData/Local/Temp/gemini-1775856546760-dbw94g0jv2.png\" hero-church-event.png)",
       "Bash(node -e \"const l = require\\('lucide-react'\\); console.log\\('Youtube:', typeof l.Youtube\\); console.log\\('Facebook:', typeof l.Facebook\\)\")",
-      "Bash(node -e \"const l = require\\('lucide-react'\\); const names = Object.keys\\(l\\).filter\\(k => /facebook|youtube|video|globe|link|external/i.test\\(k\\)\\); console.log\\(names.join\\(', '\\)\\)\")"
+      "Bash(node -e \"const l = require\\('lucide-react'\\); const names = Object.keys\\(l\\).filter\\(k => /facebook|youtube|video|globe|link|external/i.test\\(k\\)\\); console.log\\(names.join\\(', '\\)\\)\")",
+      "Bash(rsync -av --exclude='.git' --exclude='.claude/worktrees' --exclude='node_modules' --exclude='.next' C:/Users/Utente/Desktop/church-app-denis/ .)",
+      "Bash(cp -r C:/Users/Utente/Desktop/church-app-denis/src/components src/)",
+      "Bash(cp -r C:/Users/Utente/Desktop/church-app-denis/src/lib src/)",
+      "Bash(cp -r C:/Users/Utente/Desktop/church-app-denis/src/types src/)",
+      "Bash(cp -r C:/Users/Utente/Desktop/church-app-denis/src/data src/)",
+      "Bash(cp -r C:/Users/Utente/Desktop/church-app-denis/src/messages src/)",
+      "Bash(cp C:/Users/Utente/Desktop/church-app-denis/src/app/layout.tsx src/app/layout.tsx)",
+      "Bash(cp C:/Users/Utente/Desktop/church-app-denis/src/app/page.tsx src/app/page.tsx)",
+      "Bash(cp C:/Users/Utente/Desktop/church-app-denis/src/app/globals.css src/app/globals.css)",
+      "Bash(cp C:/Users/Utente/Desktop/church-app-denis/package.json .)",
+      "Bash(cp C:/Users/Utente/Desktop/church-app-denis/package-lock.json .)",
+      "Bash(xargs grep:*)",
+      "Bash(vercel --version)",
+      "Bash(vercel whoami:*)",
+      "Bash(vercel project:*)",
+      "Bash(vercel env:*)",
+      "Bash(vercel link:*)"
     ]
   }
 }
