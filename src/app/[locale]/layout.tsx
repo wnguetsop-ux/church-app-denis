@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import Header from '@/components/layout/Header'
 import BottomNav from '@/components/layout/BottomNav'
 import Footer from '@/components/layout/Footer'
+import NotificationBanner from '@/components/shared/NotificationBanner'
 
 const locales = ['fr', 'en']
 
@@ -25,6 +26,7 @@ export default async function LocaleLayout({
       </main>
       <Footer />
       <BottomNav locale={locale} />
+      <NotificationBanner />
     </NextIntlClientProvider>
   )
 }
