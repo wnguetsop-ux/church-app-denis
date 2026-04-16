@@ -62,9 +62,10 @@ export default function AdminDons() {
       isActive: current.isActive ?? true,
       order: Number(current.order) || 0,
     }
-    if (editId) await update(editId, data)
-    else await create(data)
-    setModal(null)
+    let success = false
+    if (editId) success = await update(editId, data)
+    else success = !!(await create(data))
+    if (success) setModal(null)
   }
 
   async function handleDelete() {
