@@ -45,7 +45,16 @@
       "Bash(vercel whoami:*)",
       "Bash(vercel project:*)",
       "Bash(vercel env:*)",
-      "Bash(vercel link:*)"
+      "Bash(vercel link:*)",
+      "Bash(gh pr create --title 'feat: CIFM4 complete church app with admin CRUD' --body ':*)",
+      "mcp__72b54935-1e4d-4c82-bd0f-fc274d22c63b__get_project",
+      "Bash(taskkill /PID 38488 /F)",
+      "Bash(taskkill //PID 38488 //F)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/admin)",
+      "Bash(curl -s http://localhost:3000/admin)",
+      "Bash(node scripts/create-admin.mjs)",
+      "Bash(node scripts/test-firestore.mjs)",
+      "mcp__72b54935-1e4d-4c82-bd0f-fc274d22c63b__deploy_to_vercel"
     ]
   }
 }
