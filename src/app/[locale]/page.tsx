@@ -1,15 +1,18 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
 import {
   Video, BookOpen, Bell, Calendar, ImageIcon, HandHeart,
-  Heart, Phone, Info, Music, FileText, ChevronRight, ArrowRight
+  Heart, Phone, Info, Music, FileText, ChevronRight, ArrowRight, Play
 } from 'lucide-react'
 import AnimatedSection from '@/components/shared/AnimatedSection'
 import HeroSlider from '@/components/home/HeroSlider'
-import { sermons, getFeaturedSermon } from '@/data/sermons-data'
 import { events } from '@/data/events-data'
-import { announcements } from '@/data/announcements-data'
+import { useFeaturedSermon } from '@/lib/hooks/use-sermons'
+import { useAnnouncements } from '@/lib/hooks/use-announcements'
+import { getYouTubeThumbnailUrl } from '@/lib/media/youtube'
 
 export default function HomePage() {
   return <HomeContent />
@@ -18,6 +21,8 @@ export default function HomePage() {
 function HomeContent() {
   const t = useTranslations()
   const locale = useLocale() as 'fr' | 'en'
+  const { sermon: featured } = useFeaturedSermon()
+  const { announcements } = useAnnouncements()
 
   const slides = [
     {
@@ -47,7 +52,6 @@ function HomeContent() {
     },
   ]
 
-  const featured = getFeaturedSermon()
   const urgentAnn = announcements.filter(a => a.priority === 'urgent')
   const upcomingEvents = events
     .filter(e => new Date(e.startAt) >= new Date())
@@ -135,13 +139,24 @@ function HomeContent() {
         {featured && (
           <Link href={`/${locale}/messages/${featured.id}`}
             className="block group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
-            <div className="aspect-video bg-gray-100 overflow-hidden flex items-center justify-center relative">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
+            <div className="aspect-video bg-gray-900 overflow-hidden relative">
+              <Image
+                src={getYouTubeThumbnailUrl(featured.youtubeVideoId)}
+                alt={featured.title[locale]}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105 opacity-90"
+                sizes="(max-width: 768px) 100vw, 672px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center shadow-xl transition-transform duration-300 group-hover:scale-110">
+                  <Play className="w-7 h-7 text-cifm-blue-700 fill-current ml-1" />
+                </div>
+              </div>
               <div className="absolute bottom-3 left-3 right-3 z-20">
-                <p className="text-white font-semibold text-sm drop-shadow-lg">{featured.title[locale]}</p>
+                <p className="text-white font-semibold text-sm drop-shadow-lg line-clamp-2">{featured.title[locale]}</p>
                 <p className="text-white/70 text-xs mt-0.5">{featured.speaker}</p>
               </div>
-              <Video size={48} className="text-gray-300" />
             </div>
           </Link>
         )}
