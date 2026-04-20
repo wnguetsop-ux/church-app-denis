@@ -6,6 +6,7 @@ import { useAdminCrud } from '@/lib/hooks/use-admin-crud'
 import AdminModal from '@/components/admin/AdminModal'
 import { BilingualInput, Field, Input, FormActions, DeleteConfirm, Select, Toggle } from '@/components/admin/AdminFormFields'
 import type { DonationMethod } from '@/types'
+import { publishContentNotification } from '@/lib/firebase/services/notifications'
 
 const METHOD_LABELS: Record<string, string> = {
   orange_money: 'Orange Money',
@@ -64,7 +65,22 @@ export default function AdminDons() {
     }
     let success = false
     if (editId) success = await update(editId, data)
-    else success = !!(await create(data))
+    else {
+      const id = await create(data)
+      if (id && data.isActive) {
+        await publishContentNotification({
+          category: 'dons',
+          title: { fr: 'Nouvelle méthode de don publiée', en: 'New giving method published' },
+          body: {
+            fr: data.label.fr || 'Une nouvelle méthode de don est disponible.',
+            en: data.label.en || data.label.fr || 'A new giving method is available.',
+          },
+          targetPath: '/dons',
+          entityId: id,
+        })
+      }
+      success = !!id
+    }
     if (success) setModal(null)
   }
 

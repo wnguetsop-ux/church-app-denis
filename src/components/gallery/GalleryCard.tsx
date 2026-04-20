@@ -4,25 +4,20 @@ import { motion } from 'framer-motion'
 import { Play, ZoomIn } from 'lucide-react'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
-import type { StaticGalleryItem } from '@/data/gallery-data'
+import type { GalleryViewItem } from '@/lib/hooks/use-gallery'
 import type { Locale } from '@/types'
 
 interface Props {
-  item: StaticGalleryItem
+  item: GalleryViewItem
   locale: Locale
-  index: number
   onClick: () => void
 }
 
-export default function GalleryCard({ item, locale, index, onClick }: Props) {
+export default function GalleryCard({ item, locale, onClick }: Props) {
   const [loaded, setLoaded] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
 
   const alt = item.alt[locale] || item.alt.fr
-
-  const isLandscape = item.aspect === 'landscape'
-  const spanClass = isLandscape ? 'col-span-2' : ''
-  const aspectClass = isLandscape ? 'aspect-video' : 'aspect-square'
 
   return (
     <motion.button
@@ -40,7 +35,6 @@ export default function GalleryCard({ item, locale, index, onClick }: Props) {
       className={`
         relative group rounded-2xl overflow-hidden bg-gray-100 cursor-pointer
         focus:outline-none focus-visible:ring-2 focus-visible:ring-cifm-blue-400
-        ${spanClass}
       `}
       onMouseEnter={() => {
         if (item.type === 'video' && videoRef.current) {
@@ -67,17 +61,18 @@ export default function GalleryCard({ item, locale, index, onClick }: Props) {
           height={400}
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           className={`
-            w-full h-full object-cover ${aspectClass} transition-transform duration-300
+            aspect-square w-full h-full object-cover transition-transform duration-300
             group-hover:scale-[1.08]
             ${loaded ? 'opacity-100' : 'opacity-0'}
           `}
           onLoad={() => setLoaded(true)}
         />
       ) : (
-        <div className={`relative ${aspectClass}`}>
+        <div className="relative aspect-square">
           <video
             ref={videoRef}
             src={item.src}
+            poster={item.thumbnailSrc}
             muted
             playsInline
             loop

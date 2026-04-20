@@ -3,9 +3,9 @@
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import {
-  LayoutDashboard, Video, BookOpen, Megaphone, Calendar,
+  LayoutDashboard, Video, Megaphone, Calendar,
   ImageIcon, HandHeart, Heart, Phone, Church, Menu, X,
-  BellRing, LogOut, ExternalLink
+  BellRing, LogOut, ExternalLink, Headphones
 } from 'lucide-react'
 import { useState } from 'react'
 import { useAuth } from '@/lib/hooks/use-auth'
@@ -13,7 +13,7 @@ import { useAuth } from '@/lib/hooks/use-auth'
 const navItems = [
   { href: '/admin', label: 'Tableau de bord', icon: LayoutDashboard, color: 'from-slate-500 to-slate-600', bg: 'bg-slate-50', text: 'text-slate-600' },
   { href: '/admin/messages', label: 'Messages / Sermons', icon: Video, color: 'from-blue-500 to-blue-600', bg: 'bg-blue-50', text: 'text-blue-600' },
-  { href: '/admin/enseignements', label: 'Enseignements', icon: BookOpen, color: 'from-indigo-500 to-indigo-600', bg: 'bg-indigo-50', text: 'text-indigo-600' },
+  { href: '/admin/enseignements', label: 'Enseignements / Podcasts', icon: Headphones, color: 'from-indigo-500 to-indigo-600', bg: 'bg-indigo-50', text: 'text-indigo-600' },
   { href: '/admin/annonces', label: 'Annonces', icon: Megaphone, color: 'from-amber-500 to-amber-600', bg: 'bg-amber-50', text: 'text-amber-600' },
   { href: '/admin/evenements', label: '\u00C9v\u00E9nements', icon: Calendar, color: 'from-teal-500 to-teal-600', bg: 'bg-teal-50', text: 'text-teal-600' },
   { href: '/admin/galerie', label: 'Galerie', icon: ImageIcon, color: 'from-pink-500 to-pink-600', bg: 'bg-pink-50', text: 'text-pink-600' },

@@ -17,8 +17,8 @@ const cardVariants = {
 }
 
 export default function TeachingCard({ teaching, locale }: Props) {
-  const title = teaching.title[locale]
-  const body = teaching.body?.[locale] ?? ''
+  const title = teaching.title[locale] || teaching.title.fr
+  const body = teaching.body?.[locale] ?? teaching.body?.fr ?? ''
   const isText = teaching.type === 'text'
   const preview = body.slice(0, 150) + (body.length > 150 ? '...' : '')
 
@@ -31,11 +31,10 @@ export default function TeachingCard({ teaching, locale }: Props) {
     <motion.div
       variants={cardVariants}
       whileHover={{ y: -3, boxShadow: '0 8px 30px rgba(0,0,0,0.10)' }}
-      className="group bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100 cursor-pointer"
+      className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm"
     >
-      {/* Cover image for audio teachings */}
       {!isText && teaching.coverImageUrl && (
-        <div className="relative h-32 bg-cifm-blue-100 overflow-hidden">
+        <div className="relative h-32 overflow-hidden bg-cifm-blue-100">
           <Image
             src={teaching.coverImageUrl}
             alt={title}
@@ -45,12 +44,12 @@ export default function TeachingCard({ teaching, locale }: Props) {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
           <div className="absolute bottom-3 left-3 flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center shadow">
-              <Headphones className="w-4 h-4 text-cifm-blue-700" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow">
+              <Headphones className="h-4 w-4 text-cifm-blue-700" />
             </div>
             {teaching.audioDuration && (
-              <span className="text-white text-xs font-medium bg-black/40 px-2 py-0.5 rounded-full flex items-center gap-1">
-                <Clock className="w-3 h-3" />
+              <span className="flex items-center gap-1 rounded-full bg-black/40 px-2 py-0.5 text-xs font-medium text-white">
+                <Clock className="h-3 w-3" />
                 {teaching.audioDuration}
               </span>
             )}
@@ -58,76 +57,67 @@ export default function TeachingCard({ teaching, locale }: Props) {
         </div>
       )}
 
-      <div className="p-4 space-y-2.5">
-        {/* Type badge + duration for audio without cover */}
+      <div className="space-y-2.5 p-4">
         <div className="flex items-center gap-2">
-          <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full ${
-            isText
-              ? 'bg-emerald-50 text-emerald-600'
-              : 'bg-purple-50 text-purple-600'
+          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${
+            isText ? 'bg-emerald-50 text-emerald-600' : 'bg-purple-50 text-purple-600'
           }`}>
-            {isText ? <BookOpen className="w-3 h-3" /> : <Headphones className="w-3 h-3" />}
-            {isText
-              ? (locale === 'fr' ? 'Texte' : 'Text')
-              : (locale === 'fr' ? 'Podcast' : 'Podcast')
-            }
+            {isText ? <BookOpen className="h-3 w-3" /> : <Headphones className="h-3 w-3" />}
+            {isText ? (locale === 'fr' ? 'Texte' : 'Text') : 'Podcast'}
           </span>
           {!isText && teaching.audioDuration && !teaching.coverImageUrl && (
-            <span className="text-xs text-gray-400 flex items-center gap-1">
-              <Clock className="w-3 h-3" />
+            <span className="flex items-center gap-1 text-xs text-gray-400">
+              <Clock className="h-3 w-3" />
               {teaching.audioDuration}
             </span>
           )}
           {teaching.featured && (
-            <span className="bg-cifm-gold-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-              {locale === 'fr' ? 'À la une' : 'Featured'}
+            <span className="rounded-full bg-cifm-gold-500 px-2 py-0.5 text-[10px] font-bold text-white">
+              {locale === 'fr' ? 'A la une' : 'Featured'}
             </span>
           )}
         </div>
 
-        {/* Title */}
-        <h3 className="font-lora text-base font-semibold text-gray-900 leading-snug line-clamp-2">
+        <h3 className="font-lora line-clamp-2 text-base font-semibold leading-snug text-gray-900">
           {title}
         </h3>
 
-        {/* Preview */}
-        <p className="text-gray-500 text-sm line-clamp-3 leading-relaxed">
-          {preview}
-        </p>
+        {preview && (
+          <p className="line-clamp-3 text-sm leading-relaxed text-gray-500">
+            {preview}
+          </p>
+        )}
 
-        {/* Meta */}
-        <div className="flex items-center gap-3 text-xs text-gray-400 pt-1">
+        <div className="flex items-center gap-3 pt-1 text-xs text-gray-400">
           <span className="flex items-center gap-1">
-            <Calendar className="w-3 h-3" />
+            <Calendar className="h-3 w-3" />
             {date}
           </span>
         </div>
 
-        {/* Tags */}
-        <div className="flex gap-1.5 flex-wrap">
+        <div className="flex flex-wrap gap-1.5">
           {teaching.tags.slice(0, 3).map(tag => (
-            <span
-              key={tag}
-              className="flex items-center gap-0.5 bg-blue-50 text-cifm-blue-600 text-[11px] px-2 py-0.5 rounded-full"
-            >
-              <Tag className="w-2.5 h-2.5" />
+            <span key={tag} className="flex items-center gap-0.5 rounded-full bg-blue-50 px-2 py-0.5 text-[11px] text-cifm-blue-600">
+              <Tag className="h-2.5 w-2.5" />
               {tag}
             </span>
           ))}
         </div>
 
-        {/* Action */}
         <div className="pt-2">
-          <button className={`w-full py-2.5 rounded-xl text-sm font-semibold transition-colors ${
-            isText
-              ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
-              : 'bg-purple-50 text-purple-600 hover:bg-purple-100'
-          }`}>
-            {isText
-              ? (locale === 'fr' ? 'Lire l\'enseignement' : 'Read teaching')
-              : (locale === 'fr' ? 'Écouter' : 'Listen')
-            }
-          </button>
+          {isText ? (
+            <button className="w-full rounded-xl bg-emerald-50 py-2.5 text-sm font-semibold text-emerald-600 transition-colors hover:bg-emerald-100">
+              {locale === 'fr' ? 'Lire l enseignement' : 'Read teaching'}
+            </button>
+          ) : teaching.audioUrl ? (
+            <audio controls preload="none" className="w-full">
+              <source src={teaching.audioUrl} />
+            </audio>
+          ) : (
+            <button className="w-full rounded-xl bg-purple-50 py-2.5 text-sm font-semibold text-purple-600 transition-colors hover:bg-purple-100">
+              {locale === 'fr' ? 'Podcast bientot disponible' : 'Podcast coming soon'}
+            </button>
+          )}
         </div>
       </div>
     </motion.div>

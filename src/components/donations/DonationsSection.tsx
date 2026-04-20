@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { Heart, BookOpen } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import DonationCard from './DonationCard'
-import { donationMethods } from '@/data/donations-data'
+import { useDonationMethods } from '@/lib/hooks/use-donations'
 import type { Locale } from '@/types'
 
 interface Props {
@@ -13,7 +13,8 @@ interface Props {
 
 export default function DonationsSection({ locale }: Props) {
   const t = useTranslations()
-  const activeMethods = donationMethods.filter(m => m.isActive)
+  const { methods } = useDonationMethods()
+  const activeMethods = methods.filter(m => m.isActive)
 
   return (
     <div className="space-y-8">

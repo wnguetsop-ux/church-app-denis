@@ -56,8 +56,11 @@ export default function PrayerForm({ locale }: Props) {
     try {
       await submitPrayer({
         name: form.name || null,
+        subject: form.subject || null,
         request: form.request,
+        contact: form.contact || null,
         isPublic: form.isPublic,
+        language: form.language,
       })
       setSubmitted(true)
     } catch (err) {

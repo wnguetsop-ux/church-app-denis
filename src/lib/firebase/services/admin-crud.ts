@@ -14,6 +14,7 @@ import {
 } from 'firebase/firestore'
 import { getDb, isFirebaseConfigured } from '../client'
 import { getAuthInstance } from '../client'
+import { firebaseEnv } from '../config'
 
 /** Wrap a promise with a timeout so it never hangs forever */
 function withTimeout<T>(promise: Promise<T>, ms = 15_000, label = 'Firestore'): Promise<T> {
@@ -52,7 +53,7 @@ export async function getDocById(col: string, id: string): Promise<(DocumentData
 export async function createDoc(col: string, data: DocumentData): Promise<string> {
   logDebug(`createDoc(${col}) START`)
   logDebug(`isFirebaseConfigured: ${isFirebaseConfigured}`)
-  logDebug(`projectId from env: ${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}`)
+  logDebug(`projectId from env: ${firebaseEnv.projectId}`)
 
   if (!isFirebaseConfigured) {
     throw new Error('Firebase non configuré. Ajoutez les variables NEXT_PUBLIC_FIREBASE_* dans .env.local')

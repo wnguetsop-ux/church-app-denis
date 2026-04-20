@@ -7,8 +7,7 @@ import { Camera, Film, ImageIcon } from 'lucide-react'
 import AlbumFilter from './AlbumFilter'
 import GalleryCard from './GalleryCard'
 import GalleryLightbox from './GalleryLightbox'
-import type { GalleryAlbum, StaticGalleryItem } from '@/data/gallery-data'
-import { galleryItems } from '@/data/gallery-data'
+import { useGalleryItems } from '@/lib/hooks/use-gallery'
 import type { Locale } from '@/types'
 
 interface Props {
@@ -20,32 +19,45 @@ const LOAD_MORE_COUNT = 12
 
 export default function GalleryGrid({ locale }: Props) {
   const t = useTranslations()
-  const [activeAlbum, setActiveAlbum] = useState<GalleryAlbum>('all')
+  const { items, isLoading } = useGalleryItems()
+  const [activeAlbum, setActiveAlbum] = useState('all')
   const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
-  // Sorted by date descending (most recent first)
   const sorted = useMemo(
-    () => [...galleryItems].sort((a, b) => b.date.localeCompare(a.date)),
-    []
+    () => [...items].sort((a, b) => b.date.localeCompare(a.date)),
+    [items]
   )
 
-  // Counts per album
   const counts = useMemo(() => {
-    const c: Record<GalleryAlbum, number> = {
-      all: sorted.length,
-      cultes: 0,
-      evangelisation: 0,
-      communaute: 0,
-      versets: 0,
-    }
+    const c: Record<string, number> = { all: sorted.length }
     for (const item of sorted) {
-      c[item.album]++
+      const albumKey = item.album || 'all'
+      c[albumKey] = (c[albumKey] ?? 0) + 1
     }
     return c
   }, [sorted])
 
-  // Filtered items
+  const albumOptions = useMemo(() => {
+    const labels: Record<string, string> = {
+      all: t('gallery.albums.all'),
+      cultes: t('gallery.albums.cultes'),
+      evangelisation: t('gallery.albums.evangelisation'),
+      communaute: t('gallery.albums.communaute'),
+      versets: t('gallery.albums.versets'),
+    }
+
+    const dynamicAlbums = Object.keys(counts)
+      .filter(key => key !== 'all')
+      .sort((a, b) => a.localeCompare(b))
+      .map(key => ({
+        key,
+        label: labels[key] ?? key.replace(/[-_]+/g, ' ').replace(/\b\w/g, char => char.toUpperCase()),
+      }))
+
+    return [{ key: 'all', label: labels.all }, ...dynamicAlbums]
+  }, [counts, t])
+
   const filtered = useMemo(
     () => activeAlbum === 'all' ? sorted : sorted.filter(i => i.album === activeAlbum),
     [sorted, activeAlbum]
@@ -54,11 +66,10 @@ export default function GalleryGrid({ locale }: Props) {
   const visible = filtered.slice(0, visibleCount)
   const hasMore = visibleCount < filtered.length
 
-  // Stats
   const photoCount = filtered.filter(i => i.type === 'image').length
   const videoCount = filtered.filter(i => i.type === 'video').length
 
-  function handleAlbumChange(album: GalleryAlbum) {
+  function handleAlbumChange(album: string) {
     setActiveAlbum(album)
     setVisibleCount(INITIAL_COUNT)
   }
@@ -69,10 +80,8 @@ export default function GalleryGrid({ locale }: Props) {
 
   return (
     <div className="space-y-6">
-      {/* Album filter pills */}
-      <AlbumFilter active={activeAlbum} onChange={handleAlbumChange} counts={counts} />
+      <AlbumFilter albums={albumOptions} active={activeAlbum} onChange={handleAlbumChange} counts={counts} />
 
-      {/* Stats bar */}
       <div className="flex items-center gap-4 text-xs text-gray-500">
         <span className="flex items-center gap-1">
           <Camera className="w-3.5 h-3.5" />
@@ -86,8 +95,13 @@ export default function GalleryGrid({ locale }: Props) {
         )}
       </div>
 
-      {/* Grid */}
-      {filtered.length === 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <div key={index} className="aspect-square rounded-2xl bg-gray-200 animate-pulse" />
+          ))}
+        </div>
+      ) : filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-gray-400">
           <ImageIcon className="w-12 h-12 mb-3 text-gray-300" />
           <p className="text-sm">{t('common.no_content')}</p>
@@ -106,7 +120,6 @@ export default function GalleryGrid({ locale }: Props) {
                 key={item.id}
                 item={item}
                 locale={locale}
-                index={i}
                 onClick={() => openLightbox(i)}
               />
             ))}
@@ -114,7 +127,6 @@ export default function GalleryGrid({ locale }: Props) {
         </motion.div>
       )}
 
-      {/* Load more */}
       {hasMore && (
         <div className="flex justify-center pt-4">
           <motion.button
@@ -127,7 +139,6 @@ export default function GalleryGrid({ locale }: Props) {
         </div>
       )}
 
-      {/* Lightbox */}
       <AnimatePresence>
         {lightboxIndex !== null && (
           <GalleryLightbox

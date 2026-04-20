@@ -7,6 +7,7 @@ import AdminModal from '@/components/admin/AdminModal'
 import { BilingualInput, Field, Input, FormActions, DeleteConfirm, Select } from '@/components/admin/AdminFormFields'
 import { Timestamp } from 'firebase/firestore'
 import type { Announcement } from '@/types'
+import { publishContentNotification } from '@/lib/firebase/services/notifications'
 
 const EMPTY: Partial<Announcement> = {
   title: { fr: '', en: '' },
@@ -64,7 +65,22 @@ export default function AdminAnnonces() {
     }
     let success = false
     if (editId) success = await update(editId, data)
-    else success = !!(await create(data))
+    else {
+      const id = await create(data)
+      if (id) {
+        await publishContentNotification({
+          category: 'annonces',
+          title: { fr: 'Nouvelle annonce publiée', en: 'New announcement published' },
+          body: {
+            fr: data.title.fr || 'Une nouvelle annonce est disponible.',
+            en: data.title.en || data.title.fr || 'A new announcement is available.',
+          },
+          targetPath: '/annonces',
+          entityId: id,
+        })
+      }
+      success = !!id
+    }
     if (success) setModal(null)
   }
 

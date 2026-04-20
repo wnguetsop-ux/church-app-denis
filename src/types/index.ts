@@ -84,6 +84,9 @@ export interface PrayerRequest {
   language: 'fr' | 'en'
   status: 'pending' | 'reviewed' | 'prayed'
   prayedForCount: number
+  pastoralResponse?: string | null
+  respondedAt?: Timestamp | null
+  respondedBy?: string | null
   createdAt: Timestamp
 }
 
@@ -118,4 +121,25 @@ export interface AdminUser {
   displayName: string
   role: 'superadmin' | 'editor' | 'viewer'
   createdAt: Timestamp
+}
+
+export type NotificationCategory =
+  | 'messages'
+  | 'enseignements'
+  | 'audios'
+  | 'annonces'
+  | 'dons'
+  | 'priere'
+  | 'general'
+
+export interface AppNotification {
+  id: string
+  category: NotificationCategory
+  title: BilingualText
+  body: BilingualText
+  targetPath: string | null
+  entityId: string | null
+  isManual: boolean
+  createdAt: Timestamp
+  updatedAt: Timestamp
 }

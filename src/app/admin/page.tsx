@@ -1,6 +1,6 @@
 import {
-  Video, BookOpen, Megaphone, Calendar, ImageIcon,
-  HandHeart, Heart, Phone, Church
+  Video, Megaphone, Calendar, ImageIcon,
+  HandHeart, Heart, Phone, Church, Headphones
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -23,9 +23,9 @@ const sections: SectionCard[] = [
   },
   {
     href: '/admin/enseignements',
-    label: 'Enseignements',
+    label: 'Enseignements / Podcasts',
     description: 'Textes et podcasts',
-    icon: BookOpen,
+    icon: Headphones,
     color: 'bg-purple-50 text-purple-600',
   },
   {

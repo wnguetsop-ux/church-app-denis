@@ -5,9 +5,10 @@ import { Video, Pencil, Trash2, Star, Plus, Search } from 'lucide-react'
 import { useAdminCrud } from '@/lib/hooks/use-admin-crud'
 import AdminModal from '@/components/admin/AdminModal'
 import { BilingualInput, Field, Input, TagsInput, Toggle, FormActions, DeleteConfirm } from '@/components/admin/AdminFormFields'
-import FileUpload from '@/components/admin/FileUpload'
 import { Timestamp } from 'firebase/firestore'
 import type { Sermon } from '@/types'
+import { publishContentNotification } from '@/lib/firebase/services/notifications'
+import { extractYouTubeId } from '@/lib/media/youtube'
 
 const EMPTY: Partial<Sermon> = {
   youtubeVideoId: '',
@@ -51,7 +52,7 @@ export default function AdminMessages() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     const data = {
-      youtubeVideoId: current.youtubeVideoId || '',
+      youtubeVideoId: extractYouTubeId(current.youtubeVideoId || ''),
       title: current.title || { fr: '', en: '' },
       description: current.description || { fr: '', en: '' },
       speaker: current.speaker || '',
@@ -66,6 +67,18 @@ export default function AdminMessages() {
       success = await update(editId, data)
     } else {
       const id = await create(data)
+      if (id) {
+        await publishContentNotification({
+          category: 'messages',
+          title: { fr: 'Nouveau message publié', en: 'New sermon published' },
+          body: {
+            fr: data.title.fr || 'Un nouveau message est disponible.',
+            en: data.title.en || data.title.fr || 'A new sermon is available.',
+          },
+          targetPath: '/messages',
+          entityId: id,
+        })
+      }
       success = !!id
     }
     if (success) setModal(null)

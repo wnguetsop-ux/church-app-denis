@@ -3,30 +3,30 @@
 import { motion } from 'framer-motion'
 import { Check, Copy, Phone, Mail, Landmark, Smartphone } from 'lucide-react'
 import { useState } from 'react'
-import type { StaticDonationMethod } from '@/data/donations-data'
+import type { DonationMethodViewItem } from '@/lib/hooks/use-donations'
 import type { Locale } from '@/types'
 
 interface Props {
-  method: StaticDonationMethod
+  method: DonationMethodViewItem
   locale: Locale
   index: number
 }
 
 const methodIcons: Record<string, React.ReactNode> = {
-  orange: <Smartphone className="w-6 h-6" />,
-  mtn: <Phone className="w-6 h-6" />,
+  orange_money: <Smartphone className="w-6 h-6" />,
+  mtn_money: <Phone className="w-6 h-6" />,
   paypal: <Mail className="w-6 h-6" />,
-  bank: <Landmark className="w-6 h-6" />,
+  bank_transfer: <Landmark className="w-6 h-6" />,
 }
 
 const methodColors: Record<string, { bg: string; icon: string; border: string; accent: string }> = {
-  orange: {
+  orange_money: {
     bg: 'bg-orange-50',
     icon: 'bg-orange-100 text-orange-600',
     border: 'border-orange-200',
     accent: 'text-orange-600',
   },
-  mtn: {
+  mtn_money: {
     bg: 'bg-yellow-50',
     icon: 'bg-yellow-100 text-yellow-700',
     border: 'border-yellow-200',
@@ -38,7 +38,7 @@ const methodColors: Record<string, { bg: string; icon: string; border: string; a
     border: 'border-blue-200',
     accent: 'text-blue-600',
   },
-  bank: {
+  bank_transfer: {
     bg: 'bg-gray-50',
     icon: 'bg-gray-100 text-gray-600',
     border: 'border-gray-200',
@@ -51,19 +51,20 @@ export default function DonationCard({ method, locale, index }: Props) {
 
   const label = method.label[locale] || method.label.fr
   const instructions = method.instructions[locale] || method.instructions.fr
-  const colors = methodColors[method.iconKey] || methodColors.bank
-  const icon = methodIcons[method.iconKey]
+  const colors = methodColors[method.method] || methodColors.bank_transfer
+  const icon = methodIcons[method.method] || methodIcons.bank_transfer
+  const copyValue = method.contact.replace(/\s+/g, '')
 
   async function handleCopy() {
-    if (!method.copyValue) return
+    if (!copyValue) return
     try {
-      await navigator.clipboard.writeText(method.copyValue)
+      await navigator.clipboard.writeText(copyValue)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
       // Fallback for older browsers
       const input = document.createElement('input')
-      input.value = method.copyValue
+      input.value = copyValue
       document.body.appendChild(input)
       input.select()
       document.execCommand('copy')
@@ -95,25 +96,23 @@ export default function DonationCard({ method, locale, index }: Props) {
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="font-lora text-lg font-semibold text-gray-900">{label}</h3>
-          {method.holder && (
-            <p className="text-sm text-gray-500 truncate">{method.holder}</p>
-          )}
+          {method.contact && <p className="text-sm text-gray-500 truncate">{method.contact}</p>}
         </div>
       </div>
 
       {/* Contact / Number with copy button */}
-      {method.copyValue && (
+      {copyValue && (
         <button
           onClick={handleCopy}
           className={`
             w-full flex items-center justify-between gap-3
             bg-white rounded-xl px-4 py-3 mb-3
             border border-gray-200 hover:border-gray-300
-            transition-all duration-200 group
+          transition-all duration-200 group
           `}
         >
           <span className={`font-mono text-base font-semibold ${colors.accent} tracking-wide`}>
-            {method.contact}
+            {method.contact || label}
           </span>
           <span className={`
             flex items-center gap-1.5 text-xs font-medium shrink-0 px-2.5 py-1 rounded-full transition-all duration-200

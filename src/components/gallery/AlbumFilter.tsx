@@ -1,24 +1,20 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useTranslations } from 'next-intl'
-import type { GalleryAlbum } from '@/data/gallery-data'
-import { albums } from '@/data/gallery-data'
 
 interface Props {
-  active: GalleryAlbum
-  onChange: (album: GalleryAlbum) => void
-  counts: Record<GalleryAlbum, number>
+  albums: Array<{ key: string; label: string }>
+  active: string
+  onChange: (album: string) => void
+  counts: Record<string, number>
 }
 
-export default function AlbumFilter({ active, onChange, counts }: Props) {
-  const t = useTranslations()
-
+export default function AlbumFilter({ albums, active, onChange, counts }: Props) {
   return (
     <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4">
-      {albums.map(({ key, labelKey }) => {
+      {albums.map(({ key, label }) => {
         const isActive = active === key
-        const count = key === 'all' ? counts.all : counts[key]
+        const count = counts[key] ?? 0
         return (
           <motion.button
             key={key}
@@ -33,7 +29,7 @@ export default function AlbumFilter({ active, onChange, counts }: Props) {
               }
             `}
           >
-            {t(labelKey)}
+            {label}
             <span className={`
               text-xs rounded-full px-1.5 py-0.5 min-w-[20px] text-center
               ${isActive ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'}

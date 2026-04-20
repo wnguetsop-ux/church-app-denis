@@ -1,5 +1,6 @@
 import useSWR, { mutate } from 'swr'
 import { getPublicPrayers, submitPrayerRequest, incrementPrayedFor } from '@/lib/firebase/services/prayers'
+import { createInAppNotification } from '@/lib/firebase/services/notifications'
 import type { PrayerRequest } from '@/types'
 
 const isFirebaseConfigured = !!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
@@ -28,8 +29,11 @@ export function usePublicPrayers() {
 
 export async function submitPrayer(data: {
   name: string | null
+  subject: string | null
   request: string
+  contact: string | null
   isPublic: boolean
+  language: 'fr' | 'en'
 }): Promise<string | null> {
   if (!isFirebaseConfigured) {
     // Simulate submission when Firebase is not configured
@@ -38,6 +42,16 @@ export async function submitPrayer(data: {
   }
   try {
     const id = await submitPrayerRequest(data)
+    await createInAppNotification({
+      category: 'priere',
+      title: { fr: 'Nouvelle priere recue', en: 'New prayer request received' },
+      body: {
+        fr: data.subject || data.request.slice(0, 80),
+        en: data.subject || data.request.slice(0, 80),
+      },
+      targetPath: '/priere',
+      entityId: id,
+    })
     mutate('prayers-public')
     return id
   } catch (err) {

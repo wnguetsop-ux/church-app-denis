@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { BellRing, Send, Loader2, CheckCircle, AlertCircle, Info } from 'lucide-react'
-import { BilingualInput, Field, FormActions } from '@/components/admin/AdminFormFields'
+import { BilingualInput, Field } from '@/components/admin/AdminFormFields'
 import { isFirebaseConfigured } from '@/lib/firebase/client'
-import { createDoc } from '@/lib/firebase/services/admin-crud'
+import { createInAppNotification } from '@/lib/firebase/services/notifications'
 
 export default function AdminNotifications() {
   const [title, setTitle] = useState({ fr: '', en: '' })
@@ -30,13 +30,11 @@ export default function AdminNotifications() {
 
     setSending(true)
     try {
-      // Save notification to Firestore for record-keeping
-      await createDoc('notifications', {
+      await createInAppNotification({
+        category: 'general',
         title,
         body,
-        audience,
-        sentAt: new Date().toISOString(),
-        status: 'sent',
+        isManual: true,
       })
 
       setSent(true)

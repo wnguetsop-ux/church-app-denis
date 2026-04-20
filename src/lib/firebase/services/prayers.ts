@@ -17,12 +17,19 @@ export async function getPublicPrayers(count = 20): Promise<PrayerRequest[]> {
 
 export async function submitPrayerRequest(data: {
   name: string | null
+  subject: string | null
   request: string
+  contact: string | null
   isPublic: boolean
+  language: 'fr' | 'en'
 }): Promise<string> {
   const ref = await addDoc(collection(getDb(), COL), {
     ...data,
+    status: 'pending',
     prayedForCount: 0,
+    pastoralResponse: null,
+    respondedAt: null,
+    respondedBy: null,
     createdAt: serverTimestamp(),
   })
   return ref.id

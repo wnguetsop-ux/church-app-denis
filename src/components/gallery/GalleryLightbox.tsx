@@ -4,11 +4,11 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, X, Play, Pause, Download } from 'lucide-react'
 import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { StaticGalleryItem } from '@/data/gallery-data'
+import type { GalleryViewItem } from '@/lib/hooks/use-gallery'
 import type { Locale } from '@/types'
 
 interface Props {
-  items: StaticGalleryItem[]
+  items: GalleryViewItem[]
   currentIndex: number
   locale: Locale
   onClose: () => void
@@ -47,11 +47,6 @@ export default function GalleryLightbox({ items, currentIndex, locale, onClose, 
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
   }, [])
-
-  // Reset video state on navigation
-  useEffect(() => {
-    setIsPlaying(false)
-  }, [currentIndex])
 
   function togglePlay() {
     if (!videoRef.current) return
@@ -132,11 +127,16 @@ export default function GalleryLightbox({ items, currentIndex, locale, onClose, 
             ) : (
               <div className="relative">
                 <video
+                  key={item.id}
                   ref={videoRef}
                   src={item.src}
+                  poster={item.thumbnailSrc}
                   playsInline
                   className="max-h-[75vh] w-auto rounded-lg"
                   onClick={togglePlay}
+                  onLoadedData={() => setIsPlaying(false)}
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
                   onEnded={() => setIsPlaying(false)}
                 />
                 {!isPlaying && (
